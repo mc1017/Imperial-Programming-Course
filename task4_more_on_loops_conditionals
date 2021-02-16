@@ -1,0 +1,237 @@
+//Nested Conditionals
+//leap year programme
+#include <iostream>
+ 
+int main(){
+  int year;
+  bool valid = true;
+
+  std::cout << "please enter a year" << std::endl;
+  std::cin >> year;
+
+  if( (year % 4) == 0){ 
+      // if multiple of 4
+    if( (year % 100) == 0 ){ 
+        // if (also) multiple of 100
+      if ((year %400) ==0){
+        valid = true;
+      }
+      else{
+        valid= false;
+      }
+    }
+    else{ 
+        valid= true;
+    }
+  }
+  else{
+      valid = false;
+  }
+  if (valid){
+    std::cout << "It is a leap year" << std::endl;
+  }
+  else{
+    std::cout << "It is not a leap year" << std::endl;
+  }
+}
+
+
+//Nested Loops
+//Drawing bidimentional figure
+#include <iostream>
+
+int main(){
+  int input, n1=0,n2=0;
+  std::cin>>input;
+  while (n2<input){
+    while (n1<input){
+      std::cout<< "*";
+      n1++;
+    }
+  std::cout<<std::endl;
+  n2++;
+  n1=0;
+  //n1 = 0 is to ensure the environment of inner loop doesn't change
+  }
+}
+
+//multiplication table
+#include <iostream>
+
+int main(){
+  int value,n2=0;
+  std::cin>>value;
+  for(int n1=0; n1<value; n1++){
+    while (n2< value){
+    std::cout<< (n1+1)*(n2+1)<<"\t";
+    n2++;
+    }
+  n2=0;
+  std::cout<<std::endl;
+  }
+}
+
+4.3
+//maximum and minimum so far
+#include <iostream>
+
+int main(){
+  int input,output_max,output_min;
+  std::cout<<"Please input a number:"<<std::endl;
+  std::cin>>input;
+  output_max= input;
+  output_min= input;
+  std::cout<<"Maximum so far: "<< output_max<<std::endl<<"Minimum so far: "<<output_min<<std::endl;
+  while (input!=0){
+  std::cin>>input;
+    if (input>=output_max){
+      output_max=input;
+    }
+    else if(input<=output_min){
+      output_min = input;
+    }
+  std::cout<<"Maximum so far: "<< output_max<<std::endl<<"Minimum so far: "<<output_min<<std::endl;
+  } 
+}
+
+//Collatz conjecture
+#include <iostream>
+int main(){
+  int input=0,output,num=0;
+  while (input<17 || input>28){
+    std::cout<<"Please enter a number between 17-28: "<<std::endl;
+    std::cin>>input;
+  } 
+  output = input;
+  while (input!=1){
+    if (input>=output){
+      output = input;
+    }
+    if (input%2==0){
+      input = input / 2;
+    }
+    else{
+      input = input*3 +1;
+    }
+  num++;
+  }
+  std::cout<<"The number of steps is: "<<num<<std::endl<<"The maximum number is: "<<output<<std::endl;
+}
+
+//Guess
+#include <iostream>
+#include <string>
+int main(){
+  std::string condition;
+  int num,x,y,conditions;
+  bool valid = true;
+  std::cout<<"Please enter range(x,y): "<<std::endl;
+  std::cin>>x>>y;
+  for (int count=1;valid; count++ ){
+    num = (x+y)/2;
+    std::cout<<"The number is: "<< num <<std::endl;
+    std::cin >> condition;
+    if (condition == "larger"){
+      x = num;
+    }
+    else if (condition == "smaller"){
+      y=num;
+    }
+    else if (condition == "bingo"){
+      std::cout<<"Yay, I only guessed "<<count<<" times!"<<std::endl;
+      valid = false;
+    }
+  }
+}
+
+4.4.1
+// Prime Number
+#include <iostream>
+int main(){
+  int n;
+  bool valid = false;
+  std::cout<<"Please input a number: "<<std::endl;
+  std::cin>> n;
+  for (int test = 2; test<n; test ++){
+    if ((n%test)== 0){
+      valid = true;
+    }
+  }
+  if(valid){
+    std::cout<<n<<" is not a prime number"<<std::endl;
+  }
+  else{
+    std::cout<<n<<" is a prime number"<<std::endl;
+  }
+}
+
+4.4.2
+// Prime Number
+#include <iostream>
+int main(){
+  int n;
+  bool valid = false;
+  std::cout<<"Please input a number: "<<std::endl;
+  std::cin>> n;
+  for (int test = 2; test<n; test ++){
+    if ((n%test)== 0){
+      valid = true;
+      test = n;
+    }
+  }
+  if(valid){
+    std::cout<<n<<" is not a prime number"<<std::endl;
+  }
+  else{
+    std::cout<<n<<" is a prime number"<<std::endl;
+  }
+}
+
+
+//lecture test
+
+#include <iostream>
+int main(){
+  int upper;
+  std::cin>>upper;
+  for (int number=5;number<upper;number=number +5){
+    if (number <upper){
+      std::cout<<number<<std::endl;
+    }
+  }   
+ }
+
+
+#include <iostream>
+int main(){
+  int lower, upper, number=0;
+  std::cin>>lower>>upper;
+  for (int number=0;number<upper;number=number +5){
+    if (number>lower && number <upper){
+      std::cout<<number<<std::endl;
+    }
+  }   
+ }
+
+#include <iostream>
+int main(){
+  int lower, upper, number=0;
+  bool valid= true;
+  std::cin>>lower>>upper;
+  while (number*5<upper-5){
+    number = lower/5+1;
+    lower= lower +5;
+    std::cout<<number*5<<std::endl;
+  }
+}
+
+//Lecture notes
+#include <iostream>
+int main(){
+  int n;
+  if (n=3){
+    std::cout<<n<<std::endl;
+  } 
+}
+// can actually put assignment operation into conditional, and it actually will execute assignment operation
+// if (3), 3 is considered as true

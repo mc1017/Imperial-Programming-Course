@@ -1,0 +1,1346 @@
+//*pi = new int
+//dynamically allocated memory is more memory efficient as it is only allocated when executed.
+
+
+//Loop
+# include <iostream>
+
+struct list{
+  int var;
+  list* loc;
+};
+
+int main(){
+  int n;
+  std::cout<< "Number of inputs in the list"<<std::endl;
+  std::cin>> n;
+  list* l;
+  list* tmp;
+  l = NULL;
+  std::cout<< "Please input the values: "<<std::endl;
+  for (int i=0; i<n;i++){
+    int tmpvar;
+    std::cin>>tmpvar;
+    tmp = new list;
+    tmp-> var = tmpvar;
+    tmp-> loc = l;
+    l=tmp; 
+  }
+  
+  list* out;
+  out = l;
+  while (out!=NULL){
+    std::cout<< out->var<<std::endl;
+    out = out->loc;
+  }
+
+  while (out!=NULL){
+    tmp = out-> loc; 
+    delete out;
+    out = out->loc;
+  }
+
+}
+
+
+
+//Loop + Search for
+# include <iostream>
+
+struct list{
+  int var;
+  list* loc;
+};
+
+void print(list* out){
+  while (out!=NULL){
+    std::cout<< out->var<<std::endl;
+    out = out->loc;
+  }
+}
+
+int search(int n,int a,list* out){
+  int x=0;
+  while (out!=NULL){
+    if (out->var ==a){
+      return 1;  
+    }
+    out= out->loc;
+  }
+  return 0;
+}
+
+
+
+int main(){
+  int n;
+  std::cout<< "Number of inputs in the list"<<std::endl;
+  std::cin>> n;
+  list* l;
+  list* tmp;
+  l = NULL;
+  std::cout<< "Please input the values: "<<std::endl;
+  for (int i=0; i<n;i++){
+    int tmpvar;
+    std::cin>>tmpvar;
+    tmp = new list;
+    tmp-> var = tmpvar;
+    tmp-> loc = l;
+    l=tmp; 
+  }
+  
+  list* out;
+  out = l;
+  print(out);
+
+  int a=0;
+  std::cout<< "Search for a number: "<<std::endl;
+  std::cin>>a;
+  
+  if (search(n,a,out)==1){
+    std::cout<< "The number is in the list"<<std::endl;
+  }
+  else{
+    std::cout<<"The number is not in the list"<<std::endl;
+  }
+}
+
+//When list is put in a function, it deallocate the memory automatically, which including a delete funtion at the end result in double deletion
+
+//9.4
+//Loop
+#include <iostream>
+ 
+typedef int list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+    ListNode* tmp;
+ 
+    while(l != NULL){
+        tmp = l->next;
+        delete l;
+        l = tmp;
+    }
+}
+ 
+int main(){
+  int n,tmp;
+  ListNode* l = NULL;
+  std::cout<<"How many inputs?"<<std::endl;
+  std::cin>>n;
+  std::cout<<"Please input yor numbers: "<<std::endl;
+  for (int i=0; i<n;i++){
+    std::cin>>tmp;
+    l = cons_list(tmp, l);
+  }
+  
+  print_list(l);
+
+  deallocate_list(l);
+}
+
+//Textfile
+#include <iostream>
+#include <fstream>
+
+ 
+typedef int list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+    ListNode* tmp;
+ 
+    while(l != NULL){
+        tmp = l->next;
+        delete l;
+        l = tmp;
+    }
+}
+ 
+int main(){
+  int n;
+  int tmp;
+  std::ifstream infile;
+  infile.open("Contact.txt");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+
+  deallocate_list(l);
+
+}
+ 
+
+
+//A list of words
+#include <iostream>
+#include <fstream>
+
+ 
+typedef std::string list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+    ListNode* tmp;
+ 
+    while(l != NULL){
+        tmp = l->next;
+        delete l;
+        l = tmp;
+    }
+}
+ 
+int main(){
+  int n;
+  std::string tmp;
+  std::ifstream infile;
+  infile.open("Contact.txt");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+
+  deallocate_list(l);
+
+}
+ 
+
+//Search in a list
+#include <iostream>
+#include <fstream>
+
+ 
+typedef std::string list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+bool search_list(list_t e, ListNode* l){
+  ListNode* tmp;
+  tmp = l;
+  while (l != NULL){
+    if (e==l->val){
+      return true;
+    }
+    else{
+      tmp = l->next;
+      delete l;
+      l = tmp;
+    }
+  }
+  return false; 
+}
+ 
+int main(){
+  int n;
+  std::string tmp;
+  std::ifstream infile;
+  infile.open("Contact.txt");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  std::cout<<"Please search for something: "<<std::endl;
+  std::cin>>tmp;
+  if(search_list(tmp,l)){
+    std::cout<<"Your word is in the list"<<std::endl;
+  }
+  else{
+    std::cout<<"Your word is not in the list"<<std::endl;
+  }
+}
+ 
+//Search in a ordered list
+#include <iostream>
+#include <fstream>
+
+ 
+typedef int list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+bool search_ordered_list(list_t e, ListNode* l){
+  ListNode* tmp;
+  tmp = l;
+  while (l !=NULL){
+    std::cout<<l->val<<std::endl;
+    if (e==l->val){
+      return true;
+    }
+    else if (l-> val >e) { 
+      return false;
+    }
+    else{
+      l = l->next;
+    }
+  }
+}
+ 
+int main(){
+  int n;
+  int tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  std::cout<<"Please search a number: "<<std::endl;
+  std::cin>>tmp;
+  if(search_ordered_list(tmp,l)){
+    std::cout<<"Your word is in the list"<<std::endl;
+  }
+  else{
+    std::cout<<"Your word is not in the list"<<std::endl;
+  }
+}
+ 
+//Search in a ordered list string
+#include <iostream>
+#include <fstream>
+
+ 
+typedef std::string list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+bool search_ordered_list(list_t e, ListNode* l){
+  ListNode* tmp;
+  tmp = l;
+  while (l !=NULL){
+    std::cout<<l->val<<std::endl;
+    if (e==l->val){
+      return true;
+    }
+    else if (l-> val >e) { 
+      return false;
+    }
+    else{
+      l = l->next;
+    }
+  }
+}
+ 
+int main(){
+  int n;
+  std::string tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  std::cout<<"Please search a number: "<<std::endl;
+  std::cin>>tmp;
+  if(search_ordered_list(tmp,l)){
+    std::cout<<"Your word is in the list"<<std::endl;
+  }
+  else{
+    std::cout<<"Your word is not in the list"<<std::endl;
+  }
+}
+//Size of string is compared using alphabetical search_ordered_list
+//i.e. a<b, a<ab, aaa<ba
+
+
+//Replace elements in a list (int version)
+#include <iostream>
+#include <fstream>
+
+ 
+typedef int list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+
+bool replace_list(list_t e, list_t n, ListNode* l, bool all){
+  ListNode* tmp;
+  while (l !=NULL){
+    if (!all){
+       if (e==l->val){
+        l->val= n;
+        return true;
+      }
+      else if (l-> val >e) { 
+        return false;
+      }
+      else{
+        l = l->next;
+      }  
+    }
+    else{
+      if (e==l->val){
+        while (e==l->val){
+          l->val= n;
+          l= l->next;
+        }
+      return true;  
+      }
+      else if (l-> val >e) { 
+        return false;
+      }
+      else{
+        l = l->next;
+      } 
+    } 
+  }
+  return true;
+}
+ 
+int main(){
+  
+  int tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  int e,n;
+  bool all;
+  
+  std::cout<<"Which element to replace? "<<std::endl;
+  std::cin>>e;
+  std::cout<<"Replace with what? "<<std::endl;
+  std::cin>>n;
+  std::string ans;
+  std::cout<<"Do you want to replace all occurances? "<<std::endl;
+  std::cin>>ans;
+  if (ans =="yes"){
+    all= true;
+  }
+  if(replace_list(e,  n, l,  all)){
+    print_list(l);
+  }
+  else{
+    std::cout<<"Your word is not in the list"<<std::endl;
+  }
+}
+ 
+
+//Replace elements in a list (string version)
+#include <iostream>
+#include <fstream>
+
+ 
+typedef std::string list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+
+bool replace_list(list_t e, list_t n, ListNode* l, bool all){
+  while (l !=NULL){
+    if (!all){
+      if (e==l->val){
+        l->val= n;
+        return true;
+      }
+      else{
+        l = l->next;
+      }  
+    }
+    else{
+      if (e==l->val){
+        while (e==l->val){ 
+          l->val= n;
+          l= l->next;
+        }
+      return true;  
+      }
+      else{
+        l = l->next;
+      } 
+    } 
+  }
+  return false;
+}
+ 
+int main(){
+  
+  std::string tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  std::string e,n;
+  bool all;
+  
+  std::cout<<"Which element to replace? "<<std::endl;
+  std::cin>>e;
+  std::cout<<"Replace with what? "<<std::endl;
+  std::cin>>n;
+  std::string ans;
+  std::cout<<"Do you want to replace all occurances? "<<std::endl;
+  std::cin>>ans;
+  if (ans =="yes"){
+    all= true;
+  }
+  if(replace_list(e,  n, l,  all)){
+    print_list(l);
+  }
+  else{
+    std::cout<<"Your word is not in the list"<<std::endl;
+  }
+}
+ 
+
+//Reverse order (int version)
+#include <iostream>
+#include <fstream>
+
+ 
+typedef int list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ListNode* reversed_copy_list(ListNode* l){
+  ListNode* l2=NULL;
+  while (l!=NULL){
+    l2 = cons_list(l->val, l2);
+    l = l->next;
+  }
+  return l2 ;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+ 
+int main(){
+  
+  int tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  
+  std::cout<<"Reversed copy: "<<std::endl;
+  print_list(reversed_copy_list(l));
+}
+ 
+//Reverse order (string version)
+#include <iostream>
+#include <fstream>
+
+ 
+typedef std::string list_t;
+ 
+// using typedef we can change the type only in one line
+// if we want a linked list implementation 
+// that works for a different type
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+
+ListNode* reversed_copy_list(ListNode* l){
+  ListNode* l2=NULL;
+  while (l!=NULL){
+    l2 = cons_list(l->val, l2);
+    l = l->next;
+  }
+  return l2 ;
+}
+
+ 
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+ 
+void deallocate_list(ListNode* l){
+  ListNode* tmp;
+
+  while(l != NULL){
+    tmp = l->next;
+    delete l;
+    l = tmp;
+  }
+}
+
+ 
+int main(){
+  
+  std::string tmp;
+  std::ifstream infile;
+  infile.open("list");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  
+  ListNode* l = NULL;
+  
+  while (infile>>tmp){
+    l = cons_list(tmp, l);
+  }
+  infile.close();
+  print_list(l);
+  
+  std::cout<<"Reversed copy: "<<std::endl;
+  print_list(reversed_copy_list(l));
+}
+ 
+
+
+//9.5
+//Recursion
+//they are usually closer to the mathematical //representation of the algorithm (which has //advantages for readability and analysis) and for //some algorithms and data structures they are //considerably more convenient.
+
+//Test Mpow
+#include <iostream>
+
+double mpow(double x, int n){
+    if(n == 0){
+        return 1; // base case 
+    }
+    else{
+        return x * mpow(x, n - 1); // recursive call
+    }
+}
+
+int main(){
+  int x,n;
+  std::cout<<"Please input a number and its power: "<<std::endl;
+  std::cin>>x>>n;
+  std::cout<<"The value is: "<<mpow(x,n)<<std::endl;
+}
+
+//Recursive factorial
+#include <iostream>
+
+ int mfact(int n){
+  if (n==0){
+    return 1;
+  }
+  else{
+    return n*mfact(n-1);
+  }
+}
+
+int main(){
+  int n;
+  std::cout<<"Please input a number: "<<std::endl;
+  std::cin>>n;
+  std::cout<<"The factorial is: "<<mfact(n)<<std::endl;
+}
+
+
+//Fibonacci sequence
+#include <iostream>
+
+ int fib(int n){
+  if (n==0){
+    return 0;
+  }
+  else if (n==1){
+    return 1;
+  }
+  else{
+    return fib(n-1)+ fib(n-2);
+  }
+}
+
+int main(){
+  int n;
+  std::cout<<"Please input the number of term: "<<std::endl;
+  std::cin>>n;
+  std::cout<<"The value is: "<<fib(n)<<std::endl;
+}
+
+
+//Length of a list
+#include <iostream>
+ 
+typedef int list_t;
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+ 
+ 
+int length_list_rec(ListNode* l){
+  
+  if(l != NULL){
+      // we print the first element
+      return 1+length_list_rec(l->next);
+      // then the rest of the list
+  }
+  else{
+    return 0;
+  }
+  
+}
+ 
+void deallocate_list_rec(ListNode* l){
+    ListNode* tmp;
+ 
+    if(l != NULL){
+        tmp = l->next;
+        delete l;
+        deallocate_list_rec(tmp);
+    }
+}
+ 
+int main(){
+    ListNode* l = NULL;
+ 
+    l = cons_list(2, l);
+    l = cons_list(3, l);
+ 
+    std::cout<<length_list_rec(l)<<std::endl;;
+ 
+    deallocate_list_rec(l);
+}
+
+
+//Search in a list
+#include <iostream>
+ 
+typedef int list_t;
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+ 
+ 
+bool search_list_rec(list_t e, ListNode* l){
+  
+  if(l != NULL){
+      // we print the first element
+    if(l->val==e){
+      return true;
+    } 
+    else{
+      return search_list_rec(e, l->next);
+      // then the rest of the list
+    }
+  }
+  else{
+    return false;
+  }
+  
+}
+ 
+void deallocate_list_rec(ListNode* l){
+    ListNode* tmp;
+ 
+    if(l != NULL){
+        tmp = l->next;
+        delete l;
+        deallocate_list_rec(tmp);
+    }
+}
+ 
+int main(){
+  list_t e;
+  ListNode* l = NULL;
+
+  l = cons_list(2, l);
+  l = cons_list(3, l);
+  std::cin>>e;
+  if(search_list_rec(e,l)){
+    std::cout<<"It contains the number"<<std::endl;
+  }
+  else{
+    std::cout<<"It doesn't contain the number"<<std::endl;
+  }
+  
+
+  deallocate_list_rec(l);
+}
+
+//Search in an ordered list
+#include <iostream>
+ 
+typedef int list_t;
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+ 
+ 
+bool search_ordered_list_rec(list_t e, ListNode* l){
+  std::cout<<l->val<<std::endl;
+  if(l != NULL){
+    if(l->val==e){
+      return true;
+    } 
+    else if (l->val<e){
+      return false;
+    }
+    else if (l->next == NULL){
+      return false;
+    }
+      // we print the first element
+    else{
+      return search_ordered_list_rec(e, l->next);
+      // then the rest of the list
+    }
+  }
+  else{
+    return false;
+  }
+}
+ 
+int main(){
+  list_t e;
+  ListNode* l = NULL;
+
+  l = cons_list(2, l);
+  l = cons_list(3, l);
+  l = cons_list(5, l);
+  l = cons_list(6, l);
+  std::cin>>e;
+  if(search_ordered_list_rec(e,l)){
+    std::cout<<"It contains the number"<<std::endl;
+  }
+  else{
+    std::cout<<"It doesn't contain the number"<<std::endl;
+  }
+}
+
+
+//Ordered insertion in a list
+#include <iostream>
+ 
+typedef int list_t;
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+ 
+ 
+ListNode* ordered_insertion_list(list_t e, ListNode* l){
+    if(l == NULL){
+        return cons_list(e, l);
+    }
+    else if(e < l->val){
+        return cons_list(e, l);
+    }
+    else{
+        l->next=ordered_insertion_list(e, l->next);
+        return l;
+    }
+}
+ 
+
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+
+int main(){
+  list_t e;
+  ListNode* l = NULL;
+
+  l = cons_list(6, l);
+  l = cons_list(5, l);
+  l = cons_list(3, l);
+  l = cons_list(2, l);
+  std::cin>>e;
+  ordered_insertion_list(e,l);
+  print_list(l);  
+}
+
+
+//Ordered copy in a list
+#include <iostream>
+ 
+typedef int list_t;
+ 
+struct ListNode{
+    list_t val;
+    ListNode* next;
+};
+ 
+ListNode* cons_list(list_t e, ListNode* l){
+    ListNode* tmp;
+ 
+    tmp = new ListNode;
+ 
+    tmp->val = e;
+    tmp->next = l;
+ 
+    return tmp;
+}
+ 
+ListNode* ordered_insertion_list(list_t e, ListNode* l){
+    if(l == NULL){
+      
+        return cons_list(e, l);
+    }
+    else if(e < l->val){
+      
+        return cons_list(e, l);
+        
+    }
+    else{
+      
+        l->next=ordered_insertion_list(e, l->next);
+        return l;
+    }
+}
+
+ListNode* ordered_copy_list(ListNode* l){
+  
+  ListNode* l_ordered = NULL;
+  while (l != NULL){
+    l_ordered= ordered_insertion_list(l->val, l_ordered);
+    l= l->next;
+  }
+    return l_ordered; 
+}
+ 
+
+void print_list(ListNode* l){
+    while(l != NULL){
+        std::cout << l->val << std::endl;
+        l = l->next;
+    }
+}
+
+int main(){
+  list_t e;
+  ListNode* l = NULL;
+
+  l = cons_list(6, l);
+  l = cons_list(2, l);
+  l = cons_list(5, l);
+  l = cons_list(4, l);
+  print_list(ordered_copy_list(l));  
+}

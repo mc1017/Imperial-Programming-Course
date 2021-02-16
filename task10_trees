@@ -1,0 +1,363 @@
+//Search 
+#include <iostream>
+ 
+typedef int tree_t;
+ 
+struct TreeNode{
+    tree_t val;
+    TreeNode* left;
+    TreeNode* right;
+};
+ 
+TreeNode* cons_tree(tree_t e, TreeNode* l, TreeNode* r){
+    TreeNode* tmp;
+    tmp = new TreeNode;
+    tmp->val = e;
+    tmp->left = l;
+    tmp->right = r;
+    return tmp;
+}
+ 
+TreeNode* ordered_insertion_tree(tree_t e, TreeNode* t){
+    if(t == NULL){
+        return cons_tree(e, NULL, NULL);
+    }
+    else if(e < t->val){
+        t->left = ordered_insertion_tree(e, t->left);
+        return t;
+    }
+    else{
+        t->right = ordered_insertion_tree(e, t->right);
+        return t;
+    }
+}
+ 
+bool search_ordered_tree(tree_t e, TreeNode* t){
+  if(t != NULL){
+    if (e<t->val){
+      return search_ordered_tree(e, t->left);
+    }
+    
+    if (e>t->val){
+      return search_ordered_tree(e, t->right);
+    }
+    if (e==t->val){
+      return true;
+    }
+  }
+  return false;
+}
+ 
+void deallocate_tree(TreeNode* t){
+    if(t != NULL){
+        deallocate_tree(t->left);
+        deallocate_tree(t->right);
+        delete t;
+    }
+}
+ 
+int main(){
+    TreeNode* t;
+    t = NULL;
+ 
+    t = ordered_insertion_tree(1, t);
+    t = ordered_insertion_tree(4, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(9, t);
+    t = ordered_insertion_tree(100, t);
+    t = ordered_insertion_tree(18, t);
+    t = ordered_insertion_tree(20, t);
+    int e=0;
+    std::cin>>e;
+    if(search_ordered_tree(e, t)){
+      std::cout<<"Your number is in the tree"<<std::endl;
+    }
+    else {
+      std::cout<<"Your number is not in the tree"<<std::endl;
+    }
+    deallocate_tree(t);
+}
+
+
+//Count all occurances of an element
+#include <iostream>
+ 
+typedef int tree_t;
+ 
+struct TreeNode{
+    tree_t val;
+    TreeNode* left;
+    TreeNode* right;
+};
+ 
+TreeNode* cons_tree(tree_t e, TreeNode* l, TreeNode* r){
+    TreeNode* tmp;
+    tmp = new TreeNode;
+    tmp->val = e;
+    tmp->left = l;
+    tmp->right = r;
+    return tmp;
+}
+ 
+TreeNode* ordered_insertion_tree(tree_t e, TreeNode* t){
+    if(t == NULL){
+        return cons_tree(e, NULL, NULL);
+    }
+    else if(e < t->val){
+        t->left = ordered_insertion_tree(e, t->left);
+        return t;
+    }
+    else{
+        t->right = ordered_insertion_tree(e, t->right);
+        return t;
+    }
+}
+ 
+int count_occurrences_tree(tree_t e, TreeNode* t){
+  int count=0;
+  if(t != NULL){
+    if (e<t->val){
+      return count_occurrences_tree(e, t->left);
+    }
+    
+    if (e>t->val){
+      return count_occurrences_tree(e, t->right);
+    }
+    while(e==t->val){
+      count++;
+      t = t->right;
+    }
+  }
+  return count;
+}
+ 
+void deallocate_tree(TreeNode* t){
+    if(t != NULL){
+        deallocate_tree(t->left);
+        deallocate_tree(t->right);
+        delete t;
+    }
+}
+ 
+int main(){
+    TreeNode* t;
+    t = NULL;
+    t = ordered_insertion_tree(1, t);
+    t = ordered_insertion_tree(4, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(18, t);
+    t = ordered_insertion_tree(20, t);
+    int e=0;
+    std::cin>>e;
+    std::cout<<"Number of count: "<<count_occurrences_tree(e, t)<<std::endl;
+    deallocate_tree(t);
+}
+
+
+//Find Pointer to minimum element
+#include <iostream>
+ 
+typedef int tree_t;
+ 
+struct TreeNode{
+    tree_t val;
+    TreeNode* left;
+    TreeNode* right;
+};
+ 
+TreeNode* cons_tree(tree_t e, TreeNode* l, TreeNode* r){
+    TreeNode* tmp;
+    tmp = new TreeNode;
+    tmp->val = e;
+    tmp->left = l;
+    tmp->right = r;
+    return tmp;
+}
+ 
+TreeNode* ordered_insertion_tree(tree_t e, TreeNode* t){
+    if(t == NULL){
+        return cons_tree(e, NULL, NULL);
+    }
+    else if(e < t->val){
+        t->left = ordered_insertion_tree(e, t->left);
+        return t;
+    }
+    else{
+        t->right = ordered_insertion_tree(e, t->right);
+        return t;
+    }
+}
+ 
+TreeNode* min_element_tree(TreeNode* t){
+  if (t==NULL){
+    return NULL;
+  }
+  if(t->left == NULL){
+    return t;
+  }
+  else{
+    return min_element_tree(t->left);
+  }
+}
+ 
+void deallocate_tree(TreeNode* t){
+    if(t != NULL){
+        deallocate_tree(t->left);
+        deallocate_tree(t->right);
+        delete t;
+    }
+}
+ 
+int main(){
+    TreeNode* t;
+    t = NULL;
+    t = ordered_insertion_tree(7, t);
+    t = ordered_insertion_tree(4, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(18, t);
+    t = ordered_insertion_tree(20, t);
+    
+    std::cout<<(*min_element_tree(t)).val <<std::endl;
+    deallocate_tree(t);
+}
+
+
+//Count nodes
+#include <iostream>
+ 
+typedef int tree_t;
+ 
+struct TreeNode{
+    tree_t val;
+    TreeNode* left;
+    TreeNode* right;
+};
+ 
+TreeNode* cons_tree(tree_t e, TreeNode* l, TreeNode* r){
+    TreeNode* tmp;
+    tmp = new TreeNode;
+    tmp->val = e;
+    tmp->left = l;
+    tmp->right = r;
+    return tmp;
+}
+ 
+TreeNode* ordered_insertion_tree(tree_t e, TreeNode* t){
+    if(t == NULL){
+        return cons_tree(e, NULL, NULL);
+    }
+    else if(e < t->val){
+        t->left = ordered_insertion_tree(e, t->left);
+        return t;
+    }
+    else{
+        t->right = ordered_insertion_tree(e, t->right);
+        return t;
+    }
+}
+ 
+int count_nodes_tree(TreeNode* t){
+  if(t != NULL){
+    return count_nodes_tree(t->left) + count_nodes_tree(t->right) +1;
+  }
+  else{
+    return 0;
+  }
+}
+ 
+void deallocate_tree(TreeNode* t){
+    if(t != NULL){
+        deallocate_tree(t->left);
+        deallocate_tree(t->right);
+        delete t;
+    }
+}
+ 
+int main(){
+    TreeNode* t;
+    t = NULL;
+    t = ordered_insertion_tree(7, t);
+    t = ordered_insertion_tree(4, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(18, t);
+    t = ordered_insertion_tree(20, t);
+    
+    std::cout<< count_nodes_tree(t) <<std::endl;
+    deallocate_tree(t);
+}
+
+//Count leaves
+#include <iostream>
+ 
+typedef int tree_t;
+ 
+struct TreeNode{
+    tree_t val;
+    TreeNode* left;
+    TreeNode* right;
+};
+ 
+TreeNode* cons_tree(tree_t e, TreeNode* l, TreeNode* r){
+    TreeNode* tmp;
+    tmp = new TreeNode;
+    tmp->val = e;
+    tmp->left = l;
+    tmp->right = r;
+    return tmp;
+}
+ 
+TreeNode* ordered_insertion_tree(tree_t e, TreeNode* t){
+    if(t == NULL){
+        return cons_tree(e, NULL, NULL);
+    }
+    else if(e < t->val){
+        t->left = ordered_insertion_tree(e, t->left);
+        return t;
+    }
+    else{
+        t->right = ordered_insertion_tree(e, t->right);
+        return t;
+    }
+}
+ 
+int count_leaves_tree(TreeNode* t){
+  
+  if(t!=NULL) {
+    if(t->left ==NULL && t->right ==NULL){
+      return  1 ;   
+    }
+    return count_leaves_tree(t->left) + count_leaves_tree(t->right);
+  }
+  else{
+    return 0;
+  }
+}
+ 
+void deallocate_tree(TreeNode* t){
+    if(t != NULL){
+        deallocate_tree(t->left);
+        deallocate_tree(t->right);
+        delete t;
+    }
+}
+ 
+int main(){
+    TreeNode* t;
+    t = NULL;
+    t = ordered_insertion_tree(1, t);
+    t = ordered_insertion_tree(2, t);
+    t = ordered_insertion_tree(3, t);
+    t = ordered_insertion_tree(4, t);
+    t = ordered_insertion_tree(5, t);
+    t = ordered_insertion_tree(6, t);
+    t = ordered_insertion_tree(7, t);
+    
+    std::cout<< count_leaves_tree(t) <<std::endl;
+    deallocate_tree(t);
+}

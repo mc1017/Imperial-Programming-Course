@@ -1,0 +1,383 @@
+//8.1
+//better printing
+
+#include <iostream>
+#include <cmath>
+#include <string>
+// we add the header string
+ 
+struct Point{
+    double x;
+    double y;
+}; 
+ 
+double distance_points(Point p1, Point p2){
+    return std::sqrt(std::pow((p1.x - p2.x), 2) + std::pow((p1.y - p2.y), 2));
+}
+ 
+std::string point_to_s(Point p){
+    return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ")";
+}
+// we use std::to_string to convert from double to std::string
+// the + operator on std::string chains the text together
+ 
+int main(){
+    Point pa, pb;
+ 
+    std::cout << "enter coordinates for the first point" << std::endl;
+    std::cin >> pa.x >> pa.y;
+ 
+    std::cout << "enter coordinates for the second point" << std::endl;
+    std::cin >> pb.x >> pb.y;
+ 
+    std::cout << "you entered the following points:" << std::endl;
+ 
+    // TODO: 
+    // print the two points (using function point_to_s)
+   
+    std::cout<< point_to_s(pa)<<std::endl<< point_to_s(pb)<<std::endl;
+    std::cout << "their distance is: " << distance_points(pa, pb) << std::endl;
+}
+
+
+//Print the content in a vector
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+// we add headers vector, fstream, cstdlib
+struct Point{
+    double x;
+    double y;
+}; 
+ 
+double distance_points(Point p1, Point p2){
+    return std::sqrt(std::pow((p1.x - p2.x), 2) + std::pow((p1.y - p2.y), 2));
+}
+ 
+std::string point_to_s(Point p){
+    return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ")";
+}
+ 
+int main(){
+    std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+ 
+    std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+ 
+    infile.close();
+ 
+    // TODO: 
+    // print the content of the vector
+    for (int i=0; i<points.size(); i++){
+      std::cout<< point_to_s(points[i])<<std::endl;
+    }
+ 
+}
+
+
+//Closests points
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+ 
+struct Point{
+    double x;
+    double y;
+};
+ 
+double distance_points(Point p1, Point p2){
+    return std::sqrt(std::pow((p1.x - p2.x), 2) + std::pow((p1.y - p2.y), 2));
+}
+
+std::string point_to_s(Point p){
+    return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ")";
+}
+ 
+// idxp1 and idxp2 are output parameters
+// after the function call they will contain
+// the indices of the two closest points in vp
+// if vp contains two points or more
+// (otherwise they will just contain uninitialised values)
+ 
+void closest_points(const std::vector<Point>& vp, int& idxp1, int& idxp2){
+    // TODO:
+    // complete this function
+    // (make use of function distance_points)
+  for (int i=0; i<vp.size();i++){
+    for (int j=0; j<vp.size()-2;j++){
+      if (distance_points(vp[i],vp[j])>distance_points(vp[i],vp[j+1])){
+        idxp1= i;
+        idxp2=  j+1;
+      }
+      else{
+        idxp1= i;
+        idxp2= j;
+      }
+    } 
+  }
+}
+ 
+int main(){
+ 
+    // TODO:
+    // read the points from the file
+    // and store them in vector points
+    
+    std::ifstream infile;
+    infile.open("points.txt");
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::vector<Point> points;
+    Point tmp;
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+
+    if(points.size() == 0){
+        std::cout << "there are no points in the file" << std::endl;
+    }
+    else if(points.size() == 1){
+        std::cout << "there is only one point in the file" << std::endl;
+    }
+    else{
+        int idxp1, idxp2;
+        closest_points(points, idxp1, idxp2);
+        std::cout<<point_to_s(points[idxp1])<<std::endl<<point_to_s(points[idxp2])<<std::endl;
+        std::cout<<"with a distance of " <<distance_points(points[idxp1],points[idxp2])<<std::endl;
+        // TODO: 
+        // print the two points
+    }
+}
+
+
+//8.2
+//Quadratic equation solver
+
+#include <iostream>
+#include <cmath>
+#include <string>
+// for the square root
+ 
+// five parameters:
+// three for input passed by copy
+// two for output passed by reference
+// one additional output using the return value
+struct Complex{
+  std::string x;
+  std::string y;
+}; 
+
+std::string complex(double a, double b, double c, Complex &c1, Complex &c2){
+  int temp1,temp2;
+  double delta = b*b - 4 * a * c;
+  temp1 = -b/(2 * a);
+  temp2 = std::sqrt(std::abs(delta));
+  c1.x =  std::to_string(temp1);
+  c1.y = std::to_string(temp2) +"i";
+  return c1.x +" + "+ c1.y +" and "+ c1.x +" - "+c1.y;
+}
+
+bool quadsolve(double a, double b, double c, int& x1, int& x2){
+ 
+    bool realsol;
+    double delta = b*b - 4 * a * c;
+ 
+    if(delta < 0){
+        realsol = false;
+    }    
+    else{
+ 
+        realsol = true;
+        x1 = (-b + std::sqrt(delta)) / (2 * a);
+        x2 = (-b - std::sqrt(delta)) / (2 * a);
+ 
+        // function sqrt computes the square root
+        // more legible and sometimes more efficient
+        // than using e.g. pow(delta, 0.5)
+ 
+    }
+ 
+    return realsol;
+}
+ 
+int main(){
+ 
+    double a, b, c;
+    // coincidentally named like those in the function
+ 
+    std::cout << "this program finds the real solutions" << std::endl;
+    std::cout << "of an equation of the form ax^2 + bx + c = 0" << std::endl;
+    std::cout << "please enter the coefficients a, b, c:" << std::endl;
+ 
+    std::cin >> a >> b >> c;
+ 
+    int x1, x2;
+    Complex s1,s2;
+  
+    if(quadsolve(a, b, c, x1, x2)){
+        std::cout << "the solutions are:" << std::endl;
+        std::cout << x1 << std::endl;
+        std::cout << x2 << std::endl;
+    }
+    else{
+        std::cout << "there are no real solutions" << std::endl;
+        
+        std::cout <<"the complex solutions are "<< complex(a,b,c,s1,s2)<<std::endl;      
+    } 
+}
+
+
+
+//Triangle's perimeter
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+struct Point{
+  double x;
+  double y;
+};
+
+struct Triangle{
+  double side1;
+  double side2;
+  double side3;
+};
+
+double distance_points(Point p1, Point p2){
+  return std::sqrt(std::pow((p1.x - p2.x), 2) + std::pow((p1.y - p2.y), 2));
+}
+
+double triangle_perimeter(Triangle t,std::vector<Point> coordinates ){   
+  t.side1=distance_points(coordinates[0],coordinates[1]);
+  t.side2=distance_points(coordinates[1],coordinates[2]);
+  t.side3=distance_points(coordinates[2],coordinates[0]);
+  return t.side1+t.side2+t.side3;  
+}
+
+int main(){
+  Point p1,p2,p3;
+  Triangle t;
+  std::vector<Point> coordinates;
+  std::cout<<"Please enter the coordinates of a triangle"<<std::endl;
+  std::cin>>p1.x>>p1.y>>p2.x>>p2.y>>p3.x>>p3.y;
+  coordinates.push_back(p1);
+  coordinates.push_back(p2);
+  coordinates.push_back(p3);
+  std::cout<<"The triangle's perimeter is "<<triangle_perimeter(t,coordinates)<<std::endl;
+}
+
+
+
+
+//Contact Details Read and Print
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+struct Contact{
+    std::string first;
+    std::string sur;
+    std::string email;
+    std::string phone;
+};
+
+int main(){
+  std::vector<Contact> contact;
+  Contact tmp;
+  std::ifstream infile;
+  infile.open("Contact.txt");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  while(infile>>tmp.first>>tmp.sur>>tmp.email>>tmp.phone){
+    contact.push_back(tmp);
+  }
+
+  infile.close();
+  
+  for (int i=0; i<contact.size(); i++){
+    std::cout << contact[i].first<<" "; 
+    std::cout << contact[i].sur<<" "; 
+    std::cout << contact[i].email<<" "; 
+    std::cout << contact[i].phone<<std::endl; 
+  }     
+}
+
+
+//Search and print contact
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+
+struct Contact{
+    std::string first;
+    std::string sur;
+    std::string email;
+    std::string phone;
+};
+
+int search_contact(const std::vector<Contact>& contacts, std::string first_name, std::string surname){
+  for (int i=0; i<contacts.size();i++){
+    if ((first_name==contacts[i].first) & (surname==contacts[i].sur)){
+      return i;
+    }
+  } 
+  return -1; 
+}
+
+
+int main(){
+  std::vector<Contact> contacts;
+  Contact tmp;
+  std::ifstream infile;
+  infile.open("Contact.txt");
+  if(!infile.is_open()){ 
+    std::cout << "error opening infile" << std::endl;
+    return EXIT_FAILURE;
+  }
+  while(infile>>tmp.first>>tmp.sur>>tmp.email>>tmp.phone){
+    contacts.push_back(tmp);
+  }
+
+  infile.close();
+
+  std::string first,sur;
+  std::cout<<"Please input the full name of the person you would like to search for: "<<std::endl;
+  std::cin>> first>>sur;
+
+  if (search_contact(contacts,first , sur)!=-1){
+    int tmp= search_contact(contacts,first , sur);
+    std::cout<<contacts[tmp].first<<" ";
+    std::cout << contacts[tmp].sur<<" "; 
+    std::cout << contacts[tmp].email<<" "; 
+    std::cout << contacts[tmp].phone<<std::endl; 
+  }
+  else{
+    std::cout<<"contact not found"<<std::endl;
+  } 
+}
+// size of vector is whole structure inputted = 1 size. if therre are 3 elements in a type, but 5 things in text file, size = 1. if there are 7 things in text file, size = 2. To create a new thing, add a space in text file.
+

@@ -1,0 +1,423 @@
+//absolute value
+#include <iostream>
+#include <cmath>
+// header for math operations
+ 
+int main(){
+    double n;
+    // the name of the variable doesn't matter
+    std::cout << "please enter a number" << std::endl;
+    std::cin >> n;
+    std::cout << "|" << n << "| = " << std::abs(n) << std::endl;
+}
+
+
+#include <iostream>
+
+// we define a new function called myabs
+// in the first line we specify that
+// the function takes a parameter 
+// in input of type double (double in)
+// (in is not a special name)
+// and returns a value of type double
+// (hence *double* myabs etc)
+double myabs(double in){
+  double abs;
+  if (in<0){
+    abs = -in;
+  }
+  else{
+    abs = in;
+  }
+  return abs;
+  // at the end we return the value we computed
+  // we *do not print* anything in the function
+}
+
+int main(){
+    double n;
+    std::cout << "please enter a number" << std::endl;
+    std::cin >> n;
+    std::cout << "|" << n << "| = " << myabs(n) << std::endl;
+}
+
+//Testing pow()
+#include <iostream>
+#include <cmath>
+ 
+int main(){
+    std::cout << "2^3: " << std::pow(2, 3) << std::endl;
+    std::cout << "0.5^2: " << std::pow(0.5, 2) << std::endl;
+    std::cout << "1^0: " << std::pow(1, 0) << std::endl;
+    std::cout << "4^0.5: " << std::pow(4, 0.5) << std::endl;
+    std::cout << "4^(-0.5): " << std::pow(4, -0.5) << std::endl; 
+}
+//if input pow(-1,0.5), it will output -nan, meaning Not A number
+
+
+//sum of power
+
+#include <iostream>
+#include <cmath>
+
+int main(){
+  double x,n, output=0;
+  std::cout<<"Please input two number (x^n): "<<std::endl;
+  std::cin>> x>>n;
+  for (int i=1; i<=n; i++){
+    output = output + std::pow(x,i);
+  }
+  std::cout<<"The sum of powers is: "<<output<<std::endl;
+}
+
+//our own simplified pow() with negative exponent
+#include <iostream>
+ 
+double mypow(double base, int exp){
+    double result=1; 
+    // we declare a variable for the result
+    // (should it be initialised? to what value?)
+    if (exp>0){
+      for (int m=0; m<exp; m++){
+      result= result * base;
+      }
+      return result;
+    }
+    else if (exp<0){
+      exp= -exp;
+      for (int m=0; m<exp; m++){
+      result= result * base;
+      }
+      result = 1/result;
+      return result;
+    }
+    return result;
+    // at the end we return the value we computed
+    // we *do not print* anything in the function
+}
+int main(){
+    // we test examples with integer (and non-negative) exponent
+    std::cout << "2^3: " << mypow(2, 3) << std::endl;
+    std::cout << "0.5^-5: " << mypow(0.5, -5) << std::endl;
+    std::cout << "1^0: " << mypow(1, 0) << std::endl;
+}
+
+//Own Factorial Programme 
+#include <iostream>
+ 
+int myfactorial(int in){
+// in is not a special name
+// just a name
+ 
+    int fact=1;
+    // variable that will store the result
+    
+    while (in>0){
+      fact = fact * in;
+      in = in -1;
+    } 
+    // TODO: compute the factorial of in
+    // so that the result is stored in variable fact
+    return fact;
+    // return the result
+    // we *do not print* anything in the function
+}
+int main(){
+    int n; 
+    std::cout << "please enter a number" << std::endl;
+    std::cin >> n;
+    std::cout << "factorial of " << n << ": " << myfactorial(n) << std::endl;
+}
+
+
+//Leap Year
+#include <iostream>
+ 
+// we can define a function that returns a bool
+ 
+bool leap_year(int year){
+    bool ly;
+    if( (year % 4) == 0){ 
+      // if multiple of 4
+      if( (year % 100) == 0 ){ 
+          // if (also) multiple of 100
+        if ((year %400) ==0){
+          ly = true;
+        }
+        else{
+          ly= false;
+        }
+      }
+      else{ 
+          ly= true;
+      }
+    }
+    else{
+      ly = false;
+    }
+ 
+    // TODO: check whether the year is a leap year or not
+    // store result in variable ly
+ 
+    return ly;
+    // we *do not print* anything in the function
+}
+ 
+int main(){
+ 
+    int input_year;
+ 
+    std::cout << "please enter a year" << std::endl;
+    std::cin >> input_year;
+ 
+    // a function returning a bool 
+    // can be used directly in the condition
+    // of an if statement 
+ 
+    if(leap_year(input_year)){
+        std::cout << "it's a leap year" << std::endl;
+    }
+    else{
+        std::cout << "it's not a leap year" << std::endl;
+    }
+}
+
+5.2.1
+
+//Swapping vairable and make changes to original as well
+//passing by reference
+#include <iostream>
+ 
+// this is the only different line: int&
+//n this context the & has nothing to do with the boolean operator &&.
+
+//We read the & symbol when used for passing by reference “ampersand” (not “and”).
+
+//We read “int& n1” as “reference to int n1” or as “n1 of type reference to int” (not “int and n1”).
+
+void myswap(int& n1, int& n2){
+ 
+    int tmp;
+    tmp = n1;
+    n1 = n2;
+    n2 = tmp;
+//void does not have a value, thus no need return
+}
+ 
+int main(){
+    int n1, n2;
+ 
+    std::cout << "please enter two values" << std::endl;
+    std::cin >> n1 >> n2;
+ 
+    std::cout << "you entered:" << std::endl;
+    std::cout << "n1: " << n1 << std::endl;
+    std::cout << "n2: " << n2 << std::endl;
+ 
+    myswap(n1, n2);
+ 
+    // when the function is called here
+    // the n1 in myswap becomes just a different name
+    // for the n1 in the main
+    // (same for n2)
+ 
+    std::cout << "after swapping the values:" << std::endl;
+    std::cout << "n1: " << n1 << std::endl;
+    std::cout << "n2: " << n2 << std::endl;
+}
+
+#include <iostream>
+
+void myswap(std::string& n, std::string& m){
+  std::string temp;
+  temp= n;
+  n=m;
+  m=temp;
+  
+}
+
+int main(){
+  std::string a= "ah",b="oh";
+  std::cout<< a<<std::endl<<b<<std::endl;
+
+  //swap
+  myswap(a,b);
+  std::cout<< a<<std::endl<<b<<std::endl;
+
+}
+
+5.2.2
+#include <iostream>
+ 
+bool leap_year(int year){
+    bool ly;
+    if( (year % 4) == 0){ 
+      // if multiple of 4
+      if( (year % 100) == 0 ){ 
+          // if (also) multiple of 100
+        if ((year %400) ==0){
+          ly = true;
+        }
+        else{
+          ly= false;
+        }
+      }
+      else{ 
+          ly= true;
+      }
+    }
+    else{
+      ly = false;
+    }
+ 
+    // TODO: check whether the year is a leap year or not
+    // store result in variable ly
+ 
+    return ly;
+}
+ 
+void next_date(int d1, int m1, int y1, int& d2, int& m2, int& y2){
+
+  if (m1==1||m1==3||m1==5||m1==7||m1==8||m1==10){ 
+    if (d1==31){
+      d2=1;
+      m2= m1+1;
+      y2=y1;
+    }
+    else{
+      d2=d1+1;
+      m2= m1;
+      y2=y1;
+    }
+  }
+  if (m1==4||m1==6||m1==9||m1==11){ 
+    if (d1==30){
+      d2=1;
+      m2= m1+1;
+      y2=y1;
+    }
+    else{
+      d2=d1+1;
+      m2= m1;
+      y2=y1;
+    }
+  }
+  if (m1==2){
+    if (leap_year(y1)){
+      if (d1==29){
+        d2=1;
+        m2= m1+1;
+        y2=y1;
+      }
+      else{
+        d2=d1+1;
+        m2= m1;
+        y2=y1;
+      }
+    }
+    else{
+      if (d1==28){
+        d2=1;
+        m2= m1+1;
+        y2=y1;
+      }
+      else{
+        d2=d1+1;
+        m2= m1;
+        y2=y1;
+      }
+    if (m1==12){
+      if (d1==31){
+        d2=1;
+        m2=1;
+        y2=y1+1;
+      }
+    }
+    }
+  }
+}
+    
+int main(){
+  int d1,m1,y1,d2,m2,y2; 
+
+  std::cout<<"Please enter a date (dd/mm/yyyy): "<<std::endl;
+  std::cin>> d1>>m1>>y1;
+
+  next_date(d1, m1, y1, d2, m2, y2);
+  std::cout<<"The next date is: "<<d2<<"/"<<m2<<"/"<<y2<<std::endl;
+
+    // TODO: write a main that reads a date from the user,
+    // calls function next_date to compute the date 
+    // corresponding to the next day, and then prints it
+}
+
+
+//Lecture tasks
+Q1
+#include <iostream>
+
+void compare(double&n1,double&n2){
+  int temp=0;
+  if (n1>n2){
+    temp=n2;
+    n2=n1;
+    n1=temp;
+  }
+}
+
+int main(){
+    double n1, n2;
+    std::cin >> n1 >> n2;
+    compare(n1,n2);
+    std::cout << n1 << " " << n2 << std::endl;
+}
+
+Q2
+
+#include <iostream>
+
+void compare(double&n1,double&n2,double&n3){
+  int temp2,temp3;
+  if (n1>n2 && n2>n3){
+    temp3=n3;
+    n3=n1;
+    n1=temp3;
+  }
+  else if(n1>n3 && n3>n2){
+    temp2=n2;
+    temp3=n3;
+    n2=temp3;
+    n3=n1;
+    n1=temp2;
+  }
+  else if (n2>n1 && n1>n3){
+    temp2=n2;
+    temp3=n3;
+    n2=n1;
+    n1=temp3;
+    n3=temp2;
+  }
+  else if (n2>n3 && n3>n1){
+    temp2=n2;
+    temp3=n3;
+    n2=temp3;
+    n3=temp2;
+  }
+  else if (n3>n1 && n1>n2){
+    temp2=n2;
+    n2=n1;
+    n1=temp2;
+  }
+  
+}
+
+
+int main(){
+    double n1, n2,n3;
+    std::cin >> n1 >> n2>>n3;
+    compare(n1,n2,n3);
+    std::cout << n1 << " " << n2 <<" "<<n3<< std::endl;
+}
+
+
+

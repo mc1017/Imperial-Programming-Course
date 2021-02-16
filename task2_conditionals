@@ -1,0 +1,83 @@
+//conditionals
+# include <iostream>
+
+
+int main(){
+  
+    int n, rem;
+ 
+    std::cout << "please enter a number" << std::endl;
+    std::cin >> n;
+ 
+    rem = n % 3;
+
+    if(rem==0){
+      std::cout << "the number is a multiple of 3" << std::endl;
+    }
+
+    else{
+      std::cout<< "the number is not a multiple of 3" << std::endl;
+
+    }
+ 
+
+}
+
+
+//absolute value
+#include <iostream>
+ 
+int main(){
+    double n, absv;
+    // n for the input, absv will be
+    // the absolute value we compute
+    std::cout<< "please input a number"<<std::endl;
+    std::cin>> n;
+    // TODO: ask for a number in input
+    // TODO: read the input number in n
+ 
+    if(n < 0){ // yes/no question: is n less than 0?
+        // if yes, its absolute value is the number changing the sign
+        absv = -n;
+    }
+    else{
+
+      absv = n;
+        // if not, its absolute value is the same as n
+        // TODO: assign the value of n to absv
+    }
+ 
+    std::cout << "|" << n << "| = " << absv << std::endl;
+ 
+}
+
+
+//unitconverter
+#include <iostream>
+#include <string>
+
+int main(){
+  double temperature;
+  bool valid_unit = true;
+  std::string unit_in, unit_out;
+  std::cout<<"Please input a temperature in fahrenheit or celcius"<<std::endl;
+  std::cin >> temperature>>unit_in;
+  if ((unit_in== "C")||(unit_in == "c")){
+    temperature = temperature *9/5 +32;
+    unit_out = "F";
+  }
+  else if ((unit_in=="F")||(unit_in =="f")){
+    temperature = (temperature -32)*5/9;
+  
+  }
+  else{
+    valid_unit = false;
+  }
+
+  if(valid_unit){
+    std::cout<< "Your temperature in fahrenheit is " << temperature <<" "<< unit_out<<std::endl;
+  }
+  else{
+    std::cout<<"Your unit cannot be recognised"<<std::endl;
+  }
+}

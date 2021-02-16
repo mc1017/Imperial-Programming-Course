@@ -1,0 +1,239 @@
+//3.1
+//unitconverter
+#include <iostream>
+ 
+int main(){
+    int n, i = 0;
+    // we have a variable counter
+    // counting how many times we print
+    // initially we have printed 0 times
+ 
+    std::cin >> n;
+ 
+    // the following line begins a while loop
+    // the while loop has a condition in parentheses,
+    // if the condition is true, then we enter the loop 
+    // and execute the instructions inside
+    // otherwise the execution goes past the loop
+ 
+    while(i < n){
+ 
+        std::cout << "hello" << std::endl;
+ 
+        i = i + 1;
+        // after each print we increase 
+        // the counter by 1
+    }
+}
+
+//print counter
+
+#include <iostream>
+ 
+int main(){
+    int n=4, counter = 0;
+ 
+    while(counter < n){
+        std::cout << counter << std::endl;
+        counter = counter + 1;
+    }
+}
+
+//0
+//1
+//2
+//3
+
+//infinite loop
+#include <iostream>
+ 
+int main(){
+    int n, counter = 0;
+ 
+    std::cin >> n;
+ 
+    while(counter < n){
+        std::cout << "hello" << std::endl;
+ 
+        // if we remove or forget to include
+        // the instruction updating counter
+        // if the condition is true the first time
+        // it will always stay true and the loop never ends
+ 
+    }
+}
+
+//x^n
+# include <iostream>
+
+int main(){
+  int x,n,output=1, counter=0;
+  std::cout<<"please input the value of x and n"<<std::endl;
+  std::cin>>x>>n;
+
+  while (counter<n){
+    output = output*x;
+    counter=counter +1;
+   
+  }
+  std::cout<<"The value is "<<output<<std::endl;
+  
+}
+
+//x*n
+# include <iostream>
+
+int main(){
+  int x,n,output=0, counter=0;
+  std::cout<<"please input the value of x and n"<<std::endl;
+  std::cin>>x>>n;
+
+  while (counter<n){
+    output = output+x;
+    counter=counter +1;
+   
+  }
+  std::cout<<"The value is "<<output<<std::endl;
+  
+}
+
+//echo
+#include <iostream>
+ 
+int main(){
+    int n;
+    std::cout<<"enter a number between 10 and -10"<<std::endl;
+ 
+    std::cin >> n;
+ 
+    while((n<-10)||(n>10)){
+        std::cout << "This value is not accepted,enter another one"<< std::endl;
+        std::cin >> n;
+    }
+    std::cout<<"thank you!"<<std::endl;
+}
+
+// stop
+
+#include <iostream>
+#include <string>
+int main(){
+  int remainder,output, counter=0;
+  std::string command;
+
+  while (counter >=0){
+    counter=counter+1; 
+    output = counter;
+    std::cout<<output<<std::endl;
+    
+    std::cin>>command;
+    if ((command == "stop")||(command == "Stop")){
+      counter=-1;
+    }  
+  }
+}
+
+//the sum so far
+# include <iostream>
+int main(){
+  double sum=0 ,number, counter = 0, average;
+  bool  valid = true;
+  while(valid){
+    std::cout<<"enter a number:"<<std::endl;
+    std::cin >> number;
+    sum = sum + number;
+    counter = counter+ 1;
+    average = sum/counter;
+    if (number!=0){
+       std::cout<<"the sum so far is: "<<sum<<std::endl;
+    }
+    else{
+      valid = false;
+    }
+  }
+}
+
+//the average so far
+# include <iostream>
+int main(){
+  double sum=0 ,number, counter = 0, average;
+  bool  valid = true;
+  while(valid){
+    std::cout<<"enter a number:"<<std::endl;
+    std::cin >> number;
+    sum = sum + number;
+    counter = counter+ 1;
+    average = sum/counter;
+    if (number!=0){
+       std::cout<<"the average so far is: "<<average<<std::endl;
+    }
+    else{
+      valid = false;
+    }
+  }
+}
+
+//find quotient and remainder using subtraction
+# include <iostream>
+int main(){
+  double number, divider, counter = 0;
+  bool  valid = true;
+  std::cout<<"enter two number (x/y):"<<std::endl;
+  std::cin >> number >>divider;
+  while(valid){
+    if (divider>number){
+      valid = false;
+    }
+    else{
+      number = number - divider;
+      counter = counter+ 1;
+    }
+  }
+  std::cout<<"The quotient is "<<counter<<"."<<std::endl<<"The remainder is "<< number<<std::endl;
+}
+
+//3.2
+
+#include <iostream>
+ 
+int main(){
+    for(int i = 0; i < 7; i++){
+        std::cout << i << std::endl;
+    }
+}
+//0
+//1
+//2
+//3
+//4
+//5
+//6
+
+//x^n using a for loop
+
+#include <iostream>
+
+int main(){
+  double x,n,output=1;
+  std::cout<<"please input x and n (x^n):"<<std::endl;
+  std::cin>>x>>n;
+  for(int counter=0; counter<n; counter++){
+    output= output*x;
+  }
+  std::cout<<"The value is: "<<output<<std::endl;
+}
+
+
+//factorial
+
+#include <iostream>
+
+int main(){
+  double x,output=1;
+  std::cout<<"please input x (x!):"<<std::endl;
+  std::cin>>x;
+  for(int counter=0; x>0; x=x-1){
+    output= output*x;
+  }
+  std::cout<<"The value is: "<<output<<std::endl;
+}

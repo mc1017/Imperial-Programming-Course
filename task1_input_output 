@@ -1,0 +1,197 @@
+#include <iostream>
+// 1 the header inclusion
+// of input output stream
+// using namespace std;
+#include <string>
+int main(){
+
+  std::string first_name, surname;
+  // variable declaration
+  // std::string is the type for text
+  std::cin>> first_name;
+  std::cout<<"hello, "<< first_name<< std::endl;
+  // std::endl prints a newline
+  // 3 printing instruction
+  //std means they are part of the standard library of c++
+  //cout means console output
+
+
+}
+
+1.2
+#include <iostream>
+#include <string>
+int main(){
+  std::string name;
+  std::cin>>name;
+  std::cout<< "Hello"<<std::endl;
+  std::cout<<name<<std::endl;
+
+}
+
+Exercise
+ #include <iostream>
+ 
+int main(){
+
+    std::cout << "hello"<<std::endl;
+
+}
+
+#include <iostream>
+#include <string>
+// this includes the header for text variables
+ 
+int main(){
+ 
+    std::string user_name;
+    std::string user_surname;
+ 
+    // TODO: add another declaration
+    // for a text variable called user_surname
+ 
+    std::cout << "what is your name?" << std::endl;
+    std::cin >> user_name;
+    std::cout<<"what is your surname?"<< std::endl;
+    std::cin>> user_surname;
+
+    std::cout<< "hello " << user_name<<" "<< user_surname<< std::endl;
+
+ 
+    // TODO: add another printing instruction 
+    // asking for the surname
+ 
+    // TODO: read the surname from the user
+    // and store it in variable user_surname
+ 
+    // TODO: add a printing instruction 
+    // that says hello followed by the
+    // name and surname of the user
+}
+
+1.3
+
+#include <iostream>
+
+int main(){
+
+  double n1, n2, product;
+
+  std::cout<<"please enter number n1"<<std::endl;
+  std::cin>> n1;
+  std::cout<<"please enter number n2"<<std::endl;
+  std::cin>> n2;
+  product = n1*n2;
+  std::cout<<"The product is "<< product<< std::endl;
+  
+}
+
+#include <iostream>
+ 
+int main(){
+    double a, b, c;
+ 
+    a = 1;
+    b = 2;
+    c = a + b;
+ 
+    std::cout << c << std::endl;
+    // this line will print 3
+ 
+    a = 2;
+ 
+    std::cout << c << std::endl;
+    // TODO: before testing the program
+    // write in a comment below
+    // what you expect to be printed
+    // Expected 3
+    c = a + b;
+ 
+    std::cout << c << std::endl;
+    // TODO: before testing the program
+    // write in a comment below
+    // what you expect to be printed
+    // Expected 4
+ 
+}
+
+
+#include <iostream>
+ 
+int main(){
+    double n, rem;
+ 
+    std::cout << "please enter a number" << std::endl;
+    std::cin >> n;
+ 
+    rem = n % 2;
+    // the operator % is not a percentage (bad choice of symbol, I know)
+    // it computes the remainder of the integer division
+    // between n and 2, which will be 
+    // 0 if the number is even and
+    // 1 if the number is odd
+ 
+    std::cout << "in the following line 0 means even and 1 means odd" << std::endl;
+    std::cout << rem << std::endl;
+ 
+    // later we will upgrade this example to instead print a message saying
+    // "the number is even" or "the number is odd" 
+    // depending on the value of the remainder
+}
+
+
+#include <iostream>
+ 
+int main(){
+    std::cout << 5 / 2 << std::endl;
+}
+
+#include <iostream>
+ 
+int main(){
+    std::cout << 5 / 2.0 << std::endl;
+}
+
+
+//Rectangles 
+#include <iostream>
+
+int main(){
+  double side_a,side_b,perimeter,area;
+  std::cout<<"Please input the height."<<std::endl;
+  std::cin >> side_a;
+  std::cout<<"Please input the length."<<std::endl;
+  std::cin >>  side_b;
+  perimeter = 2* (side_a+side_b);
+  area = side_a*side_b;
+  std::cout<<"The perimeter and area are " << perimeter<<" and "<<area<<" respectively."<<std::endl;
+
+}
+
+
+//Currency Conversion
+
+#include <iostream>
+
+int main(){
+  double amount, exchange_rate, euro;
+  std::cout<<"Please input the amount of money in GBP"<<std::endl;
+  std::cin>> amount;
+  std::cout<<"Please input the exchange_rate"<<std::endl;
+  std::cin>> exchange_rate;
+  euro = amount*exchange_rate;
+  std::cout<< "The amount of euro you have is "<< euro<<"."<<std::endl;
+
+}
+
+//Celcius to fahrenheit
+# include <iostream>
+
+int main(){
+  double celcius, fahrenheit;
+  std::cout<< "Please input degree in celcius"<<std::endl;
+  std::cin>> celcius;
+  fahrenheit = celcius*(9/5) +32;
+  std::cout<<"The temperature in fahrenheit is "<< fahrenheit<<std::endl;
+  
+}

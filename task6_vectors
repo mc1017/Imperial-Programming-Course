@@ -1,0 +1,526 @@
+//Testing Vector program
+#include <iostream>
+#include <vector>
+// this header is needed to use vectors
+ 
+int main(){
+    std::vector<int> v; 
+    // we declare a vector
+    // the <> contain the type
+    // for each cell of the vector
+    // initially the vector is empty:
+    // v: []
+ 
+    // we can then start adding elements to the vector
+    // this can be done using function push_back:
+ 
+    v.push_back(10);
+ 
+    // so now the vector contains one element:
+    // v: [10]
+ 
+    // let's add another element:
+ 
+    v.push_back(20);
+ 
+    // now the vector contains two elements:
+    // v: [10, 20]
+ 
+    // a key intuition about vectors is that the elements can be *indexed*
+    // the first element has index 0, and so on 
+    // up to (size of the vector - 1)
+    // v:
+    // value: |10|20|
+    // index: | 0| 1|
+ 
+    // we can index using square brackets, for example
+    // if we want to print the first element we do the following:
+ 
+    std::cout << v[0] << std::endl;
+    // this will print 10
+ 
+    // if we want to print the second element we do the following:
+ 
+    std::cout << v[1] << std::endl;
+    // this will print 20
+ 
+    // we can also use indexing to overwrite the value of cells:
+ 
+    v[0] = 15;
+ 
+    // v:
+    // value: |15|20|
+    // index: | 0| 1|
+ 
+    std::cout << v[0] << std::endl;
+    // this will print 15
+ 
+    // however we can't use indexing
+    // to access or store values in cells that don't exist
+    // for example in this case writing:
+ 
+    // v[2] = 30;
+ 
+    // or
+ 
+    // std::cout << v[4] << std::endl;
+ 
+    // would be a mistake
+    // because there are no cells for indices 2 or 4 
+    // (confusingly enough the program may or may not crash)
+ 
+    // the vector grows using push_back as seen above
+ 
+    v.push_back(30);
+ 
+    // v:
+    // value: |15|20|30|
+    // index: | 0| 1| 2|
+ 
+    // we can always check how many cells there are
+    // by using function size():
+ 
+    std::cout << v.size() << std::endl;
+    // this will print 3
+ 
+    // we can't print the whole vector at once!
+    // the following line:
+    // std::cout << v << std::endl; 
+    // would not work!
+ 
+}
+
+//testing push_back funtion
+#include <iostream>
+#include <vector>
+
+int main(){
+  std::vector<int> v;
+  v.push_back(10);
+  v.push_back(15);
+  v.push_back(20);
+  std::cout<<v[0]*(v[1]+v[2])<<std::endl;
+
+}
+
+//Reverse Sequence
+#include <iostream>
+# include <vector>
+
+int main(){
+  std::vector <int> sequence;
+  int tem=1;
+  std::cout<<"Please enter a series of number"<<std::endl;
+  while(tem!=0){
+    std::cin>>tem;
+    sequence.push_back(tem);
+  }
+  std::cout<<"You entered: "<<std::endl;
+  for (int n=0;n<sequence.size();n++){
+    std::cout<<sequence[n]<<" ";
+  }
+  std::cout<<std::endl;
+  std::cout<<"The reversed sequence is: "<<std::endl;
+  for (int i =sequence.size()-1;i>=0;i--){
+    std::cout<<sequence[i]<<" ";
+  }
+
+}
+
+//Number filter
+#include <iostream>
+#include <vector>
+
+int main(){
+  int n =0,temp,t;
+  std::vector<int> numbers;
+  std::cout<<"Please input a numebr n: "<<std::endl;
+  std::cin>>n;
+  std::cout<<"Please enter n values"<<std::endl;
+  for (int i=0;i<n;i++){
+    std::cin>>temp;
+    numbers.push_back(temp);
+  }
+  std::cout<<"Please enter a value t that filers all number larger or equal to t"<<std::endl;
+  std::cin>>t;
+  for (int i=0;i<n;i++){
+    if (numbers[i]<t){
+      std::cout<<numbers[i]<<std::endl;
+    }
+  }
+}
+
+//6.2.1
+//sum
+#include <iostream>
+#include <vector>
+ 
+// const + & directly refernece the vairable in main, without changing it 
+// it does not perform copy function i.e. vin=v, which waste memory
+double sum_vector(const std::vector<double>& vin){
+ 
+    double sum = 0;
+ 
+    for(int i = 0; i < vin.size(); i++){
+        sum = sum + vin[i];
+    }
+ 
+    return sum;
+ 
+}
+ 
+int main(){
+  int n,temp;
+  std::vector<double> v;
+  std::cout<<"How many inputs? "<<std::endl;
+  std::cin>>n;
+  std::cout<<"Please input the numebrs: "<<std::endl;
+  for (int i=0;i<n;i++){
+    std::cin>>temp;
+    v.push_back(temp);
+  }
+  
+
+  std::cout << "the sum is: " << sum_vector(v) << std::endl;
+ 
+}
+
+
+//testing clear operation
+#include <iostream>
+#include <vector>
+
+void from_1_to_n(int n, std::vector<int> &vout){
+ 
+    for(int i = 0; i < n; i++){
+        vout.push_back(i+1);
+    }
+ 
+}
+
+int main(){
+    // this program will not work as expected...
+    std::vector<int> v;
+ 
+    for(int n = 3; n < 7; n++){
+      v.clear();
+        from_1_to_n(n, v);
+ 
+        std::cout << "printing vector:" << std::endl;
+        for(int i = 0; i < v.size(); i++){
+            std::cout << v[i] << std::endl;
+        }
+    }
+}
+
+//6.3 More examples
+//Filtering values
+#include <iostream>
+#include <vector>
+
+void filter_v(const std::vector<double>& vin, double t, std::vector<double>& vout){
+  for(int i=0;i<vin.size();i++){
+    if (t>vin[i]){
+      vout.push_back(vin[i]);
+
+    }
+  }
+}
+
+int main(){
+  std::vector<double> vin,vout;
+  int num,val;
+  double t;
+  std::cout<<"How many numbers are you going to input?"<<std::endl;
+  std::cin>>num;
+  std::cout<<"Please input your value: "<<std::endl;
+  for (int i=0;i<num;i++){
+    std::cin>>val;
+    vin.push_back(val);
+  }
+  std::cout<<"Please enter filter value: "<<std::endl;
+  std::cin>>t;
+  filter_v(vin, t, vout);
+  std::cout<<"The numbers are:"<<std::endl;
+  for(int i=0;i<vout.size();i++){
+    std::cout<<vout[i]<<std::endl;
+  }
+
+
+
+
+//Searching value in a vector
+
+#include <iostream>
+#include <vector>
+
+int search_vector(int n, const std::vector<int>& vin){
+  for (int i=0; i<vin.size();i++){
+    if (n==vin[i]){
+      return i+1;
+    }
+  }
+  return -1;
+}
+
+
+
+int main(){
+  int num,temp,n;
+  std::vector<int> library;
+  std::cout<<"How much value would you like to enter? "<<std::endl;
+  std::cin>>num;
+  std::cout<<"Please input some values: "<<std::endl;
+  for (int i=0; i<num;i++){
+    std::cin>>temp;
+    library.push_back(temp);
+  }
+  std::cout<<"Please input the value you want to find: "<<std::endl;
+  std::cin>>n;
+  std::cout<<"The position of the value is: "<<search_vector(n, library)<<std::endl;
+}
+}
+
+
+//find minimum number
+#include <iostream>
+#include <vector>
+int min_vector_element(const std::vector<double>& vin){
+  double min;
+  if (vin.size()==0){
+    min=-1;
+  }
+  else if (vin.size()==1){
+    min=vin[0];
+  }
+  else {
+    for(int i=1;i<vin.size();i++){
+    if (vin[0]<vin[i]){
+      min=vin[0];
+    }
+    else if (vin[i]<vin[i-1]){
+      min=vin[i];
+    } 
+  }
+  }
+  return min;
+}
+
+int main(){
+  double num,val;
+  std::vector<double> series;
+  std::cout<<"How many values are you going to input?"<<std::endl;
+  std::cin>>num;
+  if (num!=0){
+    std::cout<<"Please input the series: "<<std::endl;
+  }
+  for (int i=0; i<num; i++){
+    std::cin>>val;
+    series.push_back(val);
+  }
+  std::cout<<"The minimum value is "<<min_vector_element(series)<<std::endl;
+}
+
+
+//Appending vectors
+#include <iostream>
+#include <vector>
+
+
+void append_vectors(const std::vector<int>& vin1, const std::vector<int>& vin2, std::vector<int>& vout){
+  for (int i=0;i<vin1.size();i++){
+    vout.push_back(vin1[i]);
+  }
+  for (int i=0;i<vin2.size();i++){
+    vout.push_back(vin2[i]);
+  }
+
+}
+
+
+int main(){
+  int num_v1,num_v2,temp;
+  std::vector<int> vin1,vin2,vout;
+  std::cout<<"How many numbers would you like to input in the first series?"<<std::endl;
+  std::cin>>num_v1;
+  std::cout<<"How many numbers would you like to input in the second series?"<<std::endl;
+  std::cin>>num_v2;
+  std::cout<<"Please input the first series:"<<std::endl;
+  for (int i=0;i<num_v1;i++){
+    std::cin>>temp;
+    vin1.push_back(temp);
+  }
+  std::cout<<"Please input the second series:"<<std::endl;
+  for (int i=0;i<num_v2;i++){
+    std::cin>>temp;
+    vin2.push_back(temp);
+  }
+  append_vectors(vin1,vin2,vout);
+  std::cout<<"The appended series is :"<<std::endl;
+  for (int i=0; i<vout.size();i++){
+    std::cout<<vout[i]<<std::endl;
+  }
+}
+
+
+
+//Set Union
+#include <iostream>
+#include <vector>
+
+
+
+int search_vector(int n, const std::vector<int>& vin2){
+  for (int i=0; i<vin2.size();i++){
+    if (n==vin2[i]){
+      return i+1;
+    }
+  }
+  return -1;
+}
+
+void union_vector(const std::vector<int>& vin1, const std::vector<int>& vin2, std::vector<int>& vout){
+  for (int i=0;i<vin1.size();i++){
+    if (search_vector(vin1[i], vin2)==-1){
+      vout.push_back(vin1[i]);
+    } 
+  }
+  for (int i=0;i<vin2.size();i++){
+    vout.push_back(vin2[i]);
+  } 
+}  
+
+
+int main(){
+  int num_v1,num_v2,temp;
+  std::vector<int> vin1,vin2,vout;
+  std::cout<<"How many numbers would you like to input in the first series?"<<std::endl;
+  std::cin>>num_v1;
+  std::cout<<"How many numbers would you like to input in the second series?"<<std::endl;
+  std::cin>>num_v2;
+  std::cout<<"Please input the first series:"<<std::endl;
+  for (int i=0;i<num_v1;i++){
+    std::cin>>temp;
+    vin1.push_back(temp);
+  }
+  std::cout<<"Please input the second series:"<<std::endl;
+  for (int i=0;i<num_v2;i++){
+    std::cin>>temp;
+    vin2.push_back(temp);
+  }
+  union_vector(vin1, vin2, vout);
+  std::cout<<"The union of the series is:"<<std::endl;
+  for (int i=0;i<vout.size();i++){
+    std::cout<<vout[i]<<std::endl;
+  }  
+}
+
+
+//Set intersection
+#include <iostream>
+#include <vector>
+
+
+
+int search_vector(int n, const std::vector<int>& vin2){
+  for (int i=0; i<vin2.size();i++){
+    if (n==vin2[i]){
+      return i+1;
+    }
+  }
+  return -1;
+}
+
+void intersection_vector(const std::vector<int>& vin1, const std::vector<int>& vin2, std::vector<int>& vout){
+  for (int i=0;i<vin1.size();i++){
+    if (search_vector(vin1[i], vin2)!=-1){
+      vout.push_back(vin1[i]);
+    } 
+  }
+}  
+
+
+int main(){
+  int num_v1,num_v2,temp;
+  std::vector<int> vin1,vin2,vout;
+  std::cout<<"How many numbers would you like to input in the first series?"<<std::endl;
+  std::cin>>num_v1;
+  std::cout<<"How many numbers would you like to input in the second series?"<<std::endl;
+  std::cin>>num_v2;
+  std::cout<<"Please input the first series:"<<std::endl;
+  for (int i=0;i<num_v1;i++){
+    std::cin>>temp;
+    vin1.push_back(temp);
+  }
+  std::cout<<"Please input the second series:"<<std::endl;
+  for (int i=0;i<num_v2;i++){
+    std::cin>>temp;
+    vin2.push_back(temp);
+  }
+  intersection_vector(vin1, vin2, vout);
+  std::cout<<"The intersection of the series is:"<<std::endl;
+  for (int i=0;i<vout.size();i++){
+    std::cout<<vout[i]<<std::endl;
+  }  
+}
+
+
+
+//Lecture Task
+//Compare Series and output lower number 
+#include <iostream>
+#include <vector>
+
+void compare_values(std::vector<int>v1,std::vector<int>v2,std::vector<int> &v3,int size_v1, int size_v2){
+  int i=0;
+  while((i!=size_v1)&&(i!=size_v2)) {
+    if (v1[i]>v2[i]){
+      v3.push_back(v2[i]);
+    }
+    else if (v2[i]>=v1[i]){
+      v3.push_back(v1[i]);
+    }
+    i++;
+  }
+  if (size_v1>size_v2){
+    while (i!=size_v1){
+      v3.push_back(v1[i]);
+      i++;
+    }
+  }
+  if (size_v2>size_v1){
+    while (i!=size_v2){
+      v3.push_back(v2[i]);
+      i++;
+    }
+  }
+}
+
+int main(){
+    int a=0,b=0,n,m,size_v1,size_v2;
+    bool valid=true;
+    std::cout<<"How much values you want to enter for the first series?"<<std::endl;
+    std::cin>>n;
+    std::cout<<"Please input a series of values:"<<std::endl;
+    std::vector<int> v1;
+    for (int i =0; i<n; i++){
+      std::cin>>a;
+      v1.push_back(a);
+    }
+    std::cout<<"How much values you want to enter for the next series?"<<std::endl;
+    std::cin>>m;
+    std::cout<<"Please input the next series of values:"<<std::endl; 
+    std::vector<int> v2;
+    for (int i =0; i<m; i++){
+      std::cin>>b;
+      v2.push_back(b);
+    }
+    size_v1= v1.size();
+    size_v2= v2.size();
+    std::vector<int> v3;
+    compare_values(v1, v2, v3,size_v1,size_v2);
+    std::cout << "the smaller value of the two series are: "<<std::endl;
+    for(int i = 0; i < v3.size(); i++){
+        std::cout <<v3[i] << std::endl;
+    }
+}
