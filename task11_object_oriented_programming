@@ -1,0 +1,562 @@
+//11.1
+//vector of points (with member functions)
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s(){
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p){
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+int main(){
+    std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+ 
+    std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+		std::cout<<tmp.to_s()<<std::endl;
+    }
+
+ 
+    infile.close();
+ 
+    // TODO: 
+    // print the content of the vector
+    // using a loop calling member function to_s 
+    // on each element in the vector
+ 
+}
+
+
+//closest_points(with member functions)
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s() const {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p) const {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+// idxp1 and idxp2 are output parameters
+// after the function call they will contain
+// the indices of the two closest points in vp
+// if vp contains two points or more
+// (otherwise they will just contain uninitialised values)
+ 
+void closest_points(const std::vector<Point>& vp, int& idxp1, int& idxp2){
+    // TODO:
+    // complete this function
+    // (make use of member function distance)
+	idxp1= 0;
+	idxp2=0;
+	for( int i=0; i<vp.size(); i++){
+		for( int j=1; (i+j+1)<vp.size(); j++){
+			if (vp[i+j+1].distance(vp[i])<vp[i+j].distance(vp[i])){
+				idxp1 = i+j+1;
+				idxp2 = i;
+			}
+
+		}
+	}
+}
+ 
+int main(){
+ 
+    // TODO:
+    // read the points from the file
+    // and store them in vector points
+	std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+	std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+ 
+    if(points.size() == 0){
+        std::cout << "there are no points in the file" << std::endl;
+    }
+    else if(points.size() == 1){
+        std::cout << "there is only one point in the file" << std::endl;
+    }
+    else{
+        int idxp1, idxp2;
+        closest_points(points, idxp1, idxp2);
+		std::cout<< "The two points are: " << points[idxp1].to_s() <<" and "<<points[idxp2].to_s()<<std::endl;
+    }
+}
+
+
+//const is needed for passing by const reference
+//When member functions do not alter the value of the variable on which they are called
+// (i.e. they do not alter the value of its member data), 
+//they should be marked as const as in the code below:
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s()  {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p) {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+
+//Here we call a function that has const, which means the function is not supposed to 
+//change the value of data componenets 
+//However, as the vp[].distance does not have a const, we do not know if it will
+//change the value or not (even if it doesn't, we still need const for it to complie)
+//else contradiction occurs.
+void closest_points(const std::vector<Point>& vp, int& idxp1, int& idxp2){
+    
+	idxp1= 0;
+	idxp2=0;
+	for( int i=0; i<vp.size(); i++){
+		for( int j=1; (i+j+1)<vp.size(); j++){
+			if (vp[i+j+1].distance(vp[i])<vp[i+j].distance(vp[i])){
+				idxp1 = i+j+1;
+				idxp2 = i;
+			}
+
+		}
+	}
+}
+ 
+int main(){
+ 
+	std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+	std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+ 
+    if(points.size() == 0){
+        std::cout << "there are no points in the file" << std::endl;
+    }
+    else if(points.size() == 1){
+        std::cout << "there is only one point in the file" << std::endl;
+    }
+    else{
+        int idxp1, idxp2;
+        closest_points(points, idxp1, idxp2);
+		std::cout<< "The two points are: " << points[idxp1].to_s() <<" and "<<points[idxp2].to_s()<<std::endl;
+    }
+}
+
+
+//triangles
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    double distance(Point p) const {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+
+
+ struct Triangle{
+	Point a;
+	Point b;
+	Point c;
+
+	double perimeter() const{
+		return (a.distance(b) + b.distance(c) + c.distance(a));	
+	}
+ };
+ 
+ 
+int main(){
+ 
+    
+	std::vector<Point> points;
+	std::vector<Triangle> tri;
+    Point tmp;
+	for (int i=0; i<3; i++){
+		std::cout<<"Please input a coordinate: "<<std::endl;
+		std::cin >> tmp.x >> tmp.y;
+        points.push_back(tmp);
+    }
+	Triangle temp;
+	temp.a = points[0];
+	temp.b = points[1];
+	temp.c = points[2];
+	tri.push_back(temp);
+	std::cout<< "The perimeter is: " << tri[0].perimeter()<<std::endl;
+
+ 
+        // TODO: 
+        // print the two points
+        // (make use of member function to_s)
+    
+}
+
+
+//11.2
+//Test the constructor with no parameter
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    std::cout << "constructor" << std::endl;
+    x = 1;
+    y = -1;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p;
+  std::cout << p.to_s() << std::endl;
+}
+
+
+//Test the constructor with parameter
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p(1, -0.5);
+  std::cout << p.to_s() << std::endl;
+}
+
+//Test that the default constructor is not always there
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p(1, -0.5);
+  std::cout << p.to_s() << std::endl;
+}
+
+
+//Test overloading
+#include <iostream>
+#include <string>
+ 
+void f(){
+   std::cout << "no parameters version" << std::endl;
+}
+ 
+void f(int n){
+    std::cout << "int version" << std::endl;
+}
+ 
+void f(int s){
+    std::cout << "std::string version" << std::endl;
+}
+ 
+int main(){
+    int a;
+    int b;
+    f();
+    f(a);
+    f(b);
+}
+
+
+//overload member function distance
+
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    std::cout << "constructor" << std::endl;
+    x = 1;
+    y = 1;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+  int distance(Point p) const{
+	  return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p;
+  std::cout << p.to_s() << std::endl;
+  std::cout<<p.distance(p)<<std::endl;
+}
+
+
+//test overloading constructors
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    x = 0;
+    y = 0;
+  }
+
+  Point(double ix){
+	  x= ix;
+	  y=0;
+  }
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+ 
+  Point p1(2);
+  std::cout << p1.to_s() << std::endl;
+}
+
+
+
+//11.3
+
+//Access modifiers
+//Member functions can access private, but outside function can't
+
+#include <iostream>
+ 
+struct Counter{
+ 
+private:
+ 
+    int c;
+ 
+public:
+ 
+    Counter(){
+        c = 0;
+    }
+ 
+    void inc(){
+        c++;
+    }
+ 
+    int get_count() const {
+        return c;
+    }
+ 
+};
+ 
+ 
+int main(){
+ 
+    Counter c1;
+ 
+    std::cout << c1.get_count() << std::endl;
+ 
+    c1.inc();
+    // ok because member function inc() is public
+ 
+    std::cout << c1.get_count() << std::endl;
+ 
+    c1.c = -2;
+    // this would not compile because the c member data is private
+ 
+} 
+
+
+
+//distance of two points
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+class Point{
+	
+	public:
+		//constructor
+		//input inx, iny ; construct x, y
+		//therefore main cannot use .x or .y (Private)
+		Point (double inx, double iny): x(inx), y(iny){
+		}
+		
+		std::string to_s(){
+			return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+		}
+	
+		double distance(Point p) const{
+			return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+		}
+		// note that we can access 
+		// the private member data x and y of p
+		// even if it's a different object
+		// because it's an instance of the same class
+	
+	private:
+		double x;
+		double y;
+	}; 
+
+ 
+double sum_distances_points(const std::vector<Point>& pv){
+	
+	return pv[0].distance(pv[1]) + pv[1].distance(pv[2]);
+} 
+
+int main(){
+    std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+ 
+    std::vector<Point> points;
+	
+
+    double inx, iny;
+ 
+    while(infile >> inx >> iny){
+		Point p(inx, iny); //define Point p, (inx, iny) included to satisfy constructor
+		points.push_back(p);
+    } 
+ 
+    infile.close();
+ 
+    std::cout << sum_distances_points(points) << std::endl;
+ 
+}
