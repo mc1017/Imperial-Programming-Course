@@ -727,3 +727,149 @@ int main(){
     std::cout << "s2: " << s2.get_id() << std::endl;
  
 }
+
+
+//Assignment operator
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // assignment operator, notice the return type
+    // (explanation below)
+    SomeClass& operator=(const SomeClass& s){
+ 
+        std::cout << "assignment operator" << std::endl;
+ 
+        id = s.id;
+ 
+        return *this;
+        // (explanation below)
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+ 
+    SomeClass s1(1);
+    SomeClass s2(2);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+    s2.operator=(s1);
+    // this will call the assignment operator we defined
+    // we could call this also in the usual member function form as
+    // s2.operator=(s1);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+}
+
+
+//Printing and chain assignments
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // assignment operator, notice the return type
+    // (explanation below)
+    SomeClass& operator=(const SomeClass& s){
+ 
+        std::cout << "assignment operator" << std::endl;
+ 
+        id = s.id;
+ 
+        return *this;
+        // (explanation below)
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+
+
+int main(){
+    SomeClass s1(1);
+    SomeClass s2(2);
+    SomeClass s3(3);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+    std::cout << "s3: " << s3.get_id() << std::endl;
+ 
+    s3 = s2 = s1; 
+    // chained assignments
+    // that can be used instead of writing:
+    // s2 = s1;
+    // s3 = s2;
+	//or this can be used
+	s3.operator=( s2.operator=( s1 ) );
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+    std::cout << "s3: " << s3.get_id() << std::endl;
+}
+
+
+//Dynamically allocated memory
+
+#include <iostream>
+ 
+int main() {
+ 
+  int* p;
+ 
+  p = new int[5];
+  // we allocate 5 contiguous memory cells of type int
+  // p points to the first cells
+ 
+  p[0] = 10;
+  // we dereference the first cell and assign 10
+  // *p = 10; would also work (but less readable in this case)
+ 
+  p[1] = 20;
+  p[2] = 30;
+  // we dereference the second and third cell
+  // and assign some values
+ 
+  // note that in the condition 
+  // of the loop below we write 3 and not 5
+  // 5 in this case is the capacity 
+  // 3 is the size (how many elements are actually stored)
+  for(int i = 0; i < 3; i++){
+    std::cout << p[i] << std::endl;
+  }
+ 
+  delete[] p;
+  // deallocation of the memory pointed by p
+  // note that we use delete[]
+  // and not delete
+}
+
