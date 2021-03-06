@@ -560,3 +560,170 @@ int main(){
     std::cout << sum_distances_points(points) << std::endl;
  
 }
+
+
+//11.4
+
+//Destructor
+
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // the destructor
+    ~SomeClass(){
+        std::cout << "object with id " << id << " going out of scope" << std::endl;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+void f(){
+    SomeClass s(1);
+}
+ 
+int main(){
+    SomeClass s(2);
+ 
+    SomeClass* sp;
+    sp = new SomeClass(3); 
+    // with dynamic memory allocation
+ 
+    f();
+    delete sp;
+}
+
+//copy constructor
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    // this is the same constructor of the previous example, not a copy constructor
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+    SomeClass s1(1);
+    // this will call the constructor we wrote
+ 
+    SomeClass s2(s1);
+    // this will call the copy constructor
+    // so the value of s.id will be copied into s2.id
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+}
+
+
+
+//copy constructor
+
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated (constructor)" << std::endl;
+    }
+ 
+    // copy constructor, note that the parameter can't be passed by copy
+    // because passing by copy entails calling the copy constructor
+    SomeClass(const SomeClass& ins) : id(ins.id) {
+      std::cout << "object with id " << id << " instantiated (copy constructor)" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+// the copy constructor is also called when we pass an object by copy (because a copy is made)
+void f1(SomeClass s){
+  std::cout << "f1" << std::endl;
+}
+ 
+// the copy constructor is not called when we pass an object by reference
+void f2(const SomeClass& s){
+  std::cout << "f2" << std::endl;
+}
+ 
+int main(){
+    SomeClass s1(1);
+ 
+    SomeClass s2(s1);
+ 
+    f1(s1);
+    f2(s1);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+}
+
+//Assignment operator
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+ 
+    SomeClass s1(1);
+    SomeClass s2(2);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+    std::cout << std::endl;
+ 
+    s2 = s1; 
+    // the default assignment operator
+    // will assign the value of s1.id to s2.id
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+}
