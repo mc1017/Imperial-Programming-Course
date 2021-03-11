@@ -1036,7 +1036,7 @@ int main(){
 }
 
 
-
+//11.6
 //complete intvector
 #include <iostream>
  
@@ -1212,3 +1212,132 @@ int main(){
     std::cout << std::endl;
  
 }
+
+
+//Test Week 8
+// If initiated 3 memory and do like p[10], it is undefined behaviour.
+//if you deleted array and do like p[1] = 2, it is undefined behaviour.
+
+
+//11.7
+//Inheritance and Polymorphism
+//Inheritance
+#include <iostream>
+ 
+class Base{
+ 
+public:
+    void b(){
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b: " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+// access modifier protected:
+// like private from outside the class
+// but allows access from derived classes
+// (see also below)
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+// class Derived inherits from class Base 
+// using "public inheritance"
+// (in C++ there are also other forms of inheritance that we will not consider)
+ 
+class Derived : public Base {
+//            ^ syntax for inheritance
+public: 
+ 
+    void d(){
+        b_pro = 3;
+        // ok: not declared in Derived but inherited from Base
+        // (b_pro protected in Base)
+ 
+        //b_pri = 4;
+        // won't work (b_pri private in Base)
+ 
+        // std::cout << "d: " << b_pro + bpri << std::endl;
+        // won't work (b_pri private in Base)
+ 
+        std::cout << "d: " << b_pro << std::endl;
+    } 
+};
+ 
+int main(){
+ 
+    Base ba;
+    ba.b();
+ 
+    Derived de;
+    de.d();
+ 
+    de.b();
+    // ok: not defined in Derived but inherited from Base
+    // (public in Base)
+ 
+}
+
+#include <iostream>
+ 
+class Base{
+ 
+public:
+    void b(){
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b (in Base): " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+class Derived : public Base {
+ 
+public: 
+ 
+    // redefinition of function b() in class Derived
+    void b(){
+        b_pro = 3;
+ 
+        // b_pri = 4; 
+        // won't work (b_pri private in Base)
+ 
+        std::cout << "b (in Derived): " << b_pro << std::endl;
+    }
+ 
+    void d(){
+        b_pro = 3;
+        std::cout << "d: " << b_pro << std::endl;
+    }
+};
+ 
+int main(){
+ 
+    Base ba;
+    ba.b();
+ 
+    Derived de;
+    de.d();
+ 
+    de.b();
+ 
+}
+//Expected output:
+//First when we set base, it is the parent class so it should output 1 2
+//When we set Derived, it is the inheritance, so it will output d: 3
+//When we set Derived,b it is the inheritance, so it is expexted to print
+// b(in Derived): 3
+//Full output :
+// b (in Base): 1 2
+// d: 3
+// b (in Derived): 3
+//Correct
