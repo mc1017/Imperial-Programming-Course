@@ -1,0 +1,1767 @@
+//11.1
+//vector of points (with member functions)
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s(){
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p){
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+int main(){
+    std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+ 
+    std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+		std::cout<<tmp.to_s()<<std::endl;
+    }
+
+ 
+    infile.close();
+ 
+    // TODO: 
+    // print the content of the vector
+    // using a loop calling member function to_s 
+    // on each element in the vector
+ 
+}
+
+
+//closest_points(with member functions)
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s() const {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p) const {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+// idxp1 and idxp2 are output parameters
+// after the function call they will contain
+// the indices of the two closest points in vp
+// if vp contains two points or more
+// (otherwise they will just contain uninitialised values)
+ 
+void closest_points(const std::vector<Point>& vp, int& idxp1, int& idxp2){
+    // TODO:
+    // complete this function
+    // (make use of member function distance)
+	idxp1= 0;
+	idxp2=0;
+	for( int i=0; i<vp.size(); i++){
+		for( int j=1; (i+j+1)<vp.size(); j++){
+			if (vp[i+j+1].distance(vp[i])<vp[i+j].distance(vp[i])){
+				idxp1 = i+j+1;
+				idxp2 = i;
+			}
+
+		}
+	}
+}
+ 
+int main(){
+ 
+    // TODO:
+    // read the points from the file
+    // and store them in vector points
+	std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+	std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+ 
+    if(points.size() == 0){
+        std::cout << "there are no points in the file" << std::endl;
+    }
+    else if(points.size() == 1){
+        std::cout << "there is only one point in the file" << std::endl;
+    }
+    else{
+        int idxp1, idxp2;
+        closest_points(points, idxp1, idxp2);
+		std::cout<< "The two points are: " << points[idxp1].to_s() <<" and "<<points[idxp2].to_s()<<std::endl;
+    }
+}
+
+
+//const is needed for passing by const reference
+//When member functions do not alter the value of the variable on which they are called
+// (i.e. they do not alter the value of its member data), 
+//they should be marked as const as in the code below:
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    std::string to_s()  {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
+ 
+    double distance(Point p) {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+ 
+
+//Here we call a function that has const, which means the function is not supposed to 
+//change the value of data componenets 
+//However, as the vp[].distance does not have a const, we do not know if it will
+//change the value or not (even if it doesn't, we still need const for it to complie)
+//else contradiction occurs.
+void closest_points(const std::vector<Point>& vp, int& idxp1, int& idxp2){
+    
+	idxp1= 0;
+	idxp2=0;
+	for( int i=0; i<vp.size(); i++){
+		for( int j=1; (i+j+1)<vp.size(); j++){
+			if (vp[i+j+1].distance(vp[i])<vp[i+j].distance(vp[i])){
+				idxp1 = i+j+1;
+				idxp2 = i;
+			}
+
+		}
+	}
+}
+ 
+int main(){
+ 
+	std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+	std::vector<Point> points;
+    Point tmp;
+ 
+    while(infile >> tmp.x >> tmp.y){
+        points.push_back(tmp);
+    }
+ 
+    if(points.size() == 0){
+        std::cout << "there are no points in the file" << std::endl;
+    }
+    else if(points.size() == 1){
+        std::cout << "there is only one point in the file" << std::endl;
+    }
+    else{
+        int idxp1, idxp2;
+        closest_points(points, idxp1, idxp2);
+		std::cout<< "The two points are: " << points[idxp1].to_s() <<" and "<<points[idxp2].to_s()<<std::endl;
+    }
+}
+
+
+//triangles
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+
+ 
+struct Point{
+    double x;
+    double y;
+ 
+    double distance(Point p) const {
+        return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+    }
+}; 
+
+
+ struct Triangle{
+	Point a;
+	Point b;
+	Point c;
+
+	double perimeter() const{
+		return (a.distance(b) + b.distance(c) + c.distance(a));	
+	}
+ };
+ 
+ 
+int main(){
+ 
+    
+	std::vector<Point> points;
+	std::vector<Triangle> tri;
+    Point tmp;
+	for (int i=0; i<3; i++){
+		std::cout<<"Please input a coordinate: "<<std::endl;
+		std::cin >> tmp.x >> tmp.y;
+        points.push_back(tmp);
+    }
+	Triangle temp;
+	temp.a = points[0];
+	temp.b = points[1];
+	temp.c = points[2];
+	tri.push_back(temp);
+	std::cout<< "The perimeter is: " << tri[0].perimeter()<<std::endl;
+
+ 
+        // TODO: 
+        // print the two points
+        // (make use of member function to_s)
+    
+}
+
+
+//11.2
+//Test the constructor with no parameter
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    std::cout << "constructor" << std::endl;
+    x = 1;
+    y = -1;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p;
+  std::cout << p.to_s() << std::endl;
+}
+
+
+//Test the constructor with parameter
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p(1, -0.5);
+  std::cout << p.to_s() << std::endl;
+}
+
+//Test that the default constructor is not always there
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p(1, -0.5);
+  std::cout << p.to_s() << std::endl;
+}
+
+
+//Test overloading
+#include <iostream>
+#include <string>
+ 
+void f(){
+   std::cout << "no parameters version" << std::endl;
+}
+ 
+void f(int n){
+    std::cout << "int version" << std::endl;
+}
+ 
+void f(int s){
+    std::cout << "std::string version" << std::endl;
+}
+ 
+int main(){
+    int a;
+    int b;
+    f();
+    f(a);
+    f(b);
+}
+
+
+//overload member function distance
+
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    std::cout << "constructor" << std::endl;
+    x = 1;
+    y = 1;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+  int distance(Point p) const{
+	  return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+  Point p;
+  std::cout << p.to_s() << std::endl;
+  std::cout<<p.distance(p)<<std::endl;
+}
+
+
+//test overloading constructors
+#include <iostream>
+#include <cmath>
+#include <string>
+ 
+struct Point{
+  double x;
+  double y;
+ 
+  Point(){
+    x = 0;
+    y = 0;
+  }
+
+  Point(double ix){
+	  x= ix;
+	  y=0;
+  }
+ 
+  Point(double ix, double iy){
+    x = ix;
+    y = iy;
+  }
+ 
+  std::string to_s() const {
+      return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
+ 
+  double distance(Point p) const {
+      return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+  }
+}; 
+ 
+int main(){
+ 
+  Point p1(2);
+  std::cout << p1.to_s() << std::endl;
+}
+
+
+
+//11.3
+
+//Access modifiers
+//Member functions can access private, but outside function can't
+
+#include <iostream>
+ 
+struct Counter{
+ 
+private:
+ 
+    int c;
+ 
+public:
+ 
+    Counter(){
+        c = 0;
+    }
+ 
+    void inc(){
+        c++;
+    }
+ 
+    int get_count() const {
+        return c;
+    }
+ 
+};
+ 
+ 
+int main(){
+ 
+    Counter c1;
+ 
+    std::cout << c1.get_count() << std::endl;
+ 
+    c1.inc();
+    // ok because member function inc() is public
+ 
+    std::cout << c1.get_count() << std::endl;
+ 
+    c1.c = -2;
+    // this would not compile because the c member data is private
+ 
+} 
+
+
+
+//distance of two points
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <cstdlib>
+ 
+class Point{
+	
+	public:
+		//constructor
+		//input inx, iny ; construct x, y
+		//therefore main cannot use .x or .y (Private)
+		Point (double inx, double iny): x(inx), y(iny){
+		}
+		
+		std::string to_s(){
+			return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+		}
+	
+		double distance(Point p) const{
+			return std::sqrt(std::pow((x - p.x), 2) + std::pow((y - p.y), 2));
+		}
+		// note that we can access 
+		// the private member data x and y of p
+		// even if it's a different object
+		// because it's an instance of the same class
+	
+	private:
+		double x;
+		double y;
+	}; 
+
+ 
+double sum_distances_points(const std::vector<Point>& pv){
+	
+	return pv[0].distance(pv[1]) + pv[1].distance(pv[2]);
+} 
+
+int main(){
+    std::ifstream infile;
+    infile.open("points.txt");
+ 
+    if(!infile.is_open()){
+        std::cout << "error opening file" << std::endl;
+        return EXIT_FAILURE;
+    }
+ 
+    std::vector<Point> points;
+	
+
+    double inx, iny;
+ 
+    while(infile >> inx >> iny){
+		Point p(inx, iny); //define Point p, (inx, iny) included to satisfy constructor
+		points.push_back(p);
+    } 
+ 
+    infile.close();
+ 
+    std::cout << sum_distances_points(points) << std::endl;
+ 
+}
+
+
+//11.4
+
+//Destructor
+//Destructor will be initated after a function or if a pointed memory 
+//from main is deleted or when a non pointed memory after the program ends.
+
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // the destructor
+    ~SomeClass(){
+        std::cout << "object with id " << id << " going out of scope" << std::endl;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+void f(){
+    SomeClass s(1);
+}
+ 
+int main(){
+    SomeClass s(2);
+ 
+    SomeClass* sp;
+    sp = new SomeClass(3); 
+    // with dynamic memory allocation
+ 
+    f();
+    delete sp;
+}
+
+//copy constructor
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    // this is the same constructor of the previous example, not a copy constructor
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+    SomeClass s1(1);
+    // this will call the constructor we wrote
+ 
+    SomeClass s2(s1);
+    // this will call the copy constructor
+    // so the value of s.id will be copied into s2.id
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+}
+
+
+
+//copy constructor
+
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated (constructor)" << std::endl;
+    }
+ 
+    // copy constructor, note that the parameter can't be passed by copy
+    // because passing by copy entails calling the copy constructor
+    SomeClass(const SomeClass& ins) : id(ins.id) {
+      std::cout << "object with id " << id << " instantiated (copy constructor)" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+// the copy constructor is also called when we pass an object by copy (because a copy is made)
+void f1(SomeClass s){
+  std::cout << "f1" << std::endl;
+}
+ 
+// the copy constructor is not called when we pass an object by reference
+void f2(const SomeClass& s){
+  std::cout << "f2" << std::endl;
+}
+ 
+int main(){
+    SomeClass s1(1);
+ 
+    SomeClass s2(s1);
+ 
+    f1(s1);
+    f2(s1);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+}
+
+//Assignment operator
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+ 
+    SomeClass s1(1);
+    SomeClass s2(2);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+    std::cout << std::endl;
+ 
+    s2 = s1; 
+    // the default assignment operator
+    // will assign the value of s1.id to s2.id
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+}
+
+
+//Assignment operator
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // assignment operator, notice the return type
+    // (explanation below)
+    SomeClass& operator=(const SomeClass& s){
+ 
+        std::cout << "assignment operator" << std::endl;
+ 
+        id = s.id;
+ 
+        return *this;
+        // (explanation below)
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+ 
+int main(){
+ 
+    SomeClass s1(1);
+    SomeClass s2(2);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+    s2.operator=(s1);
+    // this will call the assignment operator we defined
+    // we could call this also in the usual member function form as
+    // s2.operator=(s1);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+ 
+}
+
+
+//Printing and chain assignments
+#include <iostream>
+ 
+class SomeClass{
+ 
+public:
+ 
+    SomeClass(int idinput) : id(idinput) { 
+      std::cout << "object with id " << id << " instantiated" << std::endl;
+    }
+ 
+    // assignment operator, notice the return type
+    // (explanation below)
+    SomeClass& operator=(const SomeClass& s){
+ 
+        std::cout << "assignment operator" << std::endl;
+ 
+        id = s.id;
+ 
+        return *this;
+        // (explanation below)
+    }
+ 
+    int get_id() const {
+        return id;
+    }
+ 
+private:
+ 
+    int id;
+ 
+};
+
+
+int main(){
+    SomeClass s1(1);
+    SomeClass s2(2);
+    SomeClass s3(3);
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+    std::cout << "s3: " << s3.get_id() << std::endl;
+ 
+    s3 = s2 = s1; 
+    // chained assignments
+    // that can be used instead of writing:
+    // s2 = s1;
+    // s3 = s2;
+	//or this can be used
+	s3.operator=( s2.operator=( s1 ) );
+ 
+    std::cout << "s1: " << s1.get_id() << std::endl;
+    std::cout << "s2: " << s2.get_id() << std::endl;
+    std::cout << "s3: " << s3.get_id() << std::endl;
+}
+
+
+//Dynamically allocated memory
+
+#include <iostream>
+ 
+int main() {
+ 
+  int* p;
+ 
+  p = new int[5];
+  // we allocate 5 contiguous memory cells of type int
+  // p points to the first cells
+ 
+  p[0] = 10;
+  // we dereference the first cell and assign 10
+  // *p = 10; would also work (but less readable in this case)
+ 
+  p[1] = 20;
+  p[2] = 30;
+  // we dereference the second and third cell
+  // and assign some values
+ 
+  // note that in the condition 
+  // of the loop below we write 3 and not 5
+  // 5 in this case is the capacity 
+  // 3 is the size (how many elements are actually stored)
+  for(int i = 0; i < 3; i++){
+    std::cout << p[i] << std::endl;
+  }
+ 
+  delete[] p;
+  // deallocation of the memory pointed by p
+  // note that we use delete[]
+  // and not delete
+}
+
+//std::vector is not a pointer
+#include <iostream>
+#include <vector>
+ 
+int main(){
+  int *p;
+  p = new int[3];
+ 
+  std::vector<int> v; 
+ 
+  p[0] = 10;
+  v.push_back(10); // not v[0] = 10;
+ 
+  std::cout << "p[0]: " << p[0] << std::endl;
+  std::cout << "v[0]: " << v[0] << std::endl;
+ 
+  std::cout << "*p: " << *p << std::endl; 
+  // this will work: p is a pointer to the first memory cell
+ 
+  // std::cout << "*v: " << *v << std::endl;
+  // this will not work: v is not a pointer
+ 
+  delete[] p;
+ 
+}
+
+
+//How Dynamically allocated continguous memory works
+
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+ 
+int main(){
+ 
+  std::ifstream infile;
+  infile.open("input.txt");
+ 
+  if(!infile.is_open()){
+    std::cout << "error opening file" << std::endl;
+    return EXIT_FAILURE;
+  }
+ 
+  int* p;
+  int size = 0;˜
+  int capacity = 1;
+ 
+  p = new int[capacity];
+ 
+  int n; 
+ 
+  while(infile >> n){
+ 
+    if(capacity <= size){
+      // reallocation needed
+ 
+      capacity = capacity * 2;
+ 
+      int* tmp_p;
+      tmp_p = new int[capacity];
+      // a new memory area of the size
+      // of the updated capacity value is allocated
+ 
+      for(int i = 0; i < size; i++){
+        tmp_p[i] = p[i];
+      }
+      // the content of the previous memory area is copied 
+      // to the newly allocated memory area
+ 
+      delete[] p;
+      // the previous memory area is deallocated
+ 
+      p = tmp_p;
+      // the pointer is updated to point to the new memory area
+ 
+    }
+ 
+    p[size] = n;
+    // the element is added 
+    size = size + 1;
+    // the size is updated
+  }
+ 
+  for(int i = 0; i < size; i++){
+    std::cout << p[i] << std::endl;
+  }
+ 
+  delete[] p;
+ 
+}
+
+
+//test the reallocation of dynamically allocated contiguous memory with printing
+
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+ 
+int main(){
+ 
+  std::ifstream infile;
+  infile.open("input.txt");
+ 
+  if(!infile.is_open()){
+    std::cout << "error opening file" << std::endl;
+    return EXIT_FAILURE;
+  }
+ 
+  int* p;
+  int size = 0;
+  int capacity = 1;
+ 
+  p = new int[capacity];
+ 
+  int n; 
+ 
+  while(infile >> n){
+ 
+    if(capacity <= size){
+      // reallocation needed
+ 
+      capacity = capacity * 2;
+ 
+      int* tmp_p;
+      tmp_p = new int[capacity];
+      // a new memory area of the size
+      // of the updated capacity value is allocated
+ 
+      for(int i = 0; i < size; i++){
+        tmp_p[i] = p[i];
+      }
+      // the content of the previous memory area is copied 
+      // to the newly allocated memory area
+ 
+      delete[] p;
+      // the previous memory area is deallocated
+ 
+      p = tmp_p;
+      // the pointer is updated to point to the new memory area
+ 
+    }
+ 
+    p[size] = n;
+    // the element is added 
+    size = size + 1;
+    // the size is updated
+    std::cout << p[size-1] <<" was added"<< std::endl;
+	std::cout << "size: "<< size<<std::endl;
+	std::cout <<"capacity: "<<capacity<<std::endl;
+	std::cout<<std::endl;
+  }
+
+  for(int i = 0; i < size; i++){
+    std::cout << p[i] << std::endl;
+  }
+ 
+  delete[] p;
+ 
+}
+
+
+//11.6
+//complete intvector
+#include <iostream>
+ 
+class intvector{
+ 
+public:
+ 
+    // constructor
+    intvector(){
+        m_size = 0;
+        // initially no elements, size is 0
+ 
+        m_capacity = 1;
+        p = new int[m_capacity];
+        // we dynamically allocate 
+        // an initial memory area
+        // of size 1 (there is space
+        // to add 1 element before
+        // a reallocation is needed)
+    }
+ 
+    // like push_back in std::vector
+    // same algorithm as 
+    // "Reallocating dynamically allocated contiguous memory"
+    // in section 11.5
+    void push_back(int n){
+    	if(m_capacity <= m_size){
+      		m_capacity = m_capacity * 2;
+			int* tmp_p;
+			tmp_p = new int[m_capacity];
+			for(int i = 0; i < m_size; i++){
+				tmp_p[i] = p[i];
+			}
+			delete[] p;
+			p = tmp_p;
+		}
+		p[m_size] = n;			
+		m_size = m_size + 1;
+    }	
+        // TODO: implement this function
+    
+ 
+    // like size() in std::vector
+    int size() const {
+		return m_size;
+        // TODO: implement this function
+    }
+ 
+    // like capacity() in std::vector
+    int capacity() const {
+		return m_capacity;
+        // TODO: implement this function
+    }
+ 
+    // return the element at index i
+    // (consider how it is used in the main below)
+    int at(int i) const {
+		return p[i];
+        // TODO: implement this function
+    }
+ 
+    // destructor: we need to write our own destructor
+    // with a delete[] instruction that deallocates 
+    // the dynamically allocated contiguous memory
+ 
+    // we would have a memory leak otherwise because 
+    // the default destructor wouldn't do this
+ 
+    ~intvector(){
+        delete[] p;
+    }
+ 
+    // copy constructor
+    // (see explanation in exercise below)
+ 
+    intvector(const intvector& v){
+        m_capacity = v.m_capacity;
+        m_size = v.m_size;
+ 
+        p = new int[m_capacity];
+ 
+        for(int i = 0; i < m_size; i++){
+            p[i] = v.p[i];
+        }
+ 
+    }
+ 
+    // assignment operator
+    // (see explanation in exercise below)
+ 
+    intvector& operator=(const intvector& v){
+ 
+        // first of all we check whether this is being called
+        // during a reflexive assignment
+        // that is something such as a = a;
+ 
+        // if yes we don't do anything
+        // otherwise we enter the if statement
+ 
+        if(this != &v){
+ 
+            delete[] p;
+ 
+            m_capacity = v.m_capacity;
+            m_size = v.m_size;
+ 
+            p = new int[m_capacity];
+ 
+            for(int i = 0; i < m_size; i++){
+                p[i] = v.p[i];
+            }
+        }
+        return *this;
+    }
+ 
+private:
+ 
+    int* p;
+    int m_size;
+    int m_capacity;
+ 
+};
+ 
+ 
+int main(){
+    intvector iv1;
+ 
+    for(int i = 0; i < 9; i++){
+        iv1.push_back(i);
+		std::cout<<"size: "<<iv1.size()<<std::endl;
+		std::cout<<"capacity: "<<iv1.capacity()<<std::endl;
+        // TODO: add printing instructions showing how the size and the capacity are updated
+    }
+ 
+    std::cout << "printing iv1: " << std::endl;
+ 
+    for(int i = 0; i < iv1.size(); i++){
+        std::cout << iv1.at(i) << std::endl;
+    }
+ 
+    std::cout << std::endl;
+ 
+    // calling the copy constructor
+    intvector iv2(iv1);
+ 
+    // calling the assignment operator
+    intvector iv3 = iv1;
+ 
+    iv1.push_back(9);
+ 
+    std::cout << "printing iv1:" << std::endl;
+ 
+    for(int i = 0; i < iv1.size(); i++){
+        std::cout << iv1.at(i) << std::endl;
+    }
+ 
+    std::cout << std::endl;
+ 
+    std::cout << "printing iv2:" << std::endl;
+ 
+    for(int i = 0; i < iv2.size(); i++){
+        std::cout << iv2.at(i) << std::endl;
+    }
+ 
+    std::cout << std::endl;
+ 
+    std::cout << "printing iv3:" << std::endl;
+ 
+    for(int i = 0; i < iv3.size(); i++){
+        std::cout << iv3.at(i) << std::endl;
+    }
+ 
+    std::cout << std::endl;
+ 
+}
+
+
+//Test Week 8
+// If initiated 3 memory and do like p[10], it is undefined behaviour.
+//if you deleted array and do like p[1] = 2, it is undefined behaviour.
+
+
+//11.7
+//Inheritance and Polymorphism
+//Inheritance
+#include <iostream>
+ 
+class Base{
+ 
+public:
+    void b(){
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b: " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+// access modifier protected:
+// like private from outside the class
+// but allows access from derived classes
+// (see also below)
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+// class Derived inherits from class Base 
+// using "public inheritance"
+// (in C++ there are also other forms of inheritance that we will not consider)
+ 
+class Derived : public Base {
+//            ^ syntax for inheritance
+public: 
+ 
+    void d(){
+        b_pro = 3;
+        // ok: not declared in Derived but inherited from Base
+        // (b_pro protected in Base)
+ 
+        //b_pri = 4;
+        // won't work (b_pri private in Base)
+ 
+        // std::cout << "d: " << b_pro + bpri << std::endl;
+        // won't work (b_pri private in Base)
+ 
+        std::cout << "d: " << b_pro << std::endl;
+    } 
+};
+ 
+int main(){
+ 
+    Base ba;
+    ba.b();
+ 
+    Derived de;
+    de.d();
+ 
+    de.b();
+    // ok: not defined in Derived but inherited from Base
+    // (public in Base)
+ 
+}
+
+#include <iostream>
+ 
+class Base{
+ 
+public:
+    void b(){
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b (in Base): " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+class Derived : public Base {
+ 
+public: 
+ 
+    // redefinition of function b() in class Derived
+    void b(){
+        b_pro = 3;
+ 
+        // b_pri = 4; 
+        // won't work (b_pri private in Base)
+ 
+        std::cout << "b (in Derived): " << b_pro << std::endl;
+    }
+ 
+    void d(){
+        b_pro = 3;
+        std::cout << "d: " << b_pro << std::endl;
+    }
+};
+ 
+int main(){
+ 
+    Base ba;
+    ba.b();
+ 
+    Derived de;
+    de.d();
+ 
+    de.b();
+ 
+}
+//Expected output:
+//First when we set base, it is the parent class so it should output 1 2
+//When we set Derived, it is the inheritance, so it will output d: 3
+//When we set Derived,b it is the inheritance, so it is expexted to print
+// b(in Derived): 3
+//Full output :
+// b (in Base): 1 2
+// d: 3
+// b (in Derived): 3
+//Correct
+
+
+//Subtyping
+#include <iostream>
+
+class Base{
+ 
+public:
+    void b(){
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b (in Base): " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+class Derived : public Base {
+ 
+public: 
+ 
+    void b(){
+        b_pro = 3;
+ 
+
+        std::cout << "b (in Derived): " << b_pro << std::endl;
+    }
+ 
+    void d(){
+        b_pro = 3;
+        std::cout << "d: " << b_pro << std::endl;
+    }
+};
+
+
+void fcopy(Base inb){
+    inb.b();
+}
+ 
+void fref(Base& inb){
+    inb.b();
+}
+ 
+int main(){
+ 
+    Base ba;
+    Derived de;
+ 
+    fcopy(ba);
+ 
+    fcopy(de);
+    // we can pass an argument of type Derived
+    // to a parameter of type Base
+    // because since Derived inherits from Base
+    // Derive is a subtype of Base
+ 
+    fref(ba);
+ 
+    fref(de);
+    // same as above
+ 
+    Base* bp;
+ 
+    bp = &ba;
+    bp->b();
+ 
+    bp = &de;
+    // for the same reason 
+    // we can point to an object of type Derived
+    // using a pointer to Base
+ 
+    bp->b();
+ 
+}
+
+//Firstly, fcopy(ba) prints b (in Derived): 1 2
+//Secondly, fcopy(de) prints b (in Derived): 1 2 as Derived is under Base,
+// so it is legal which is a subtype
+//Thirdly, fref(ba) and fref(de) both print b (in Derived): 1 2 for 
+//the same reason
+// For bp-> b() it is pointing to a function inside class base
+// for bp->b() it is pointing to a function inside class base even
+// if the address is in Derived.
+
+
+
+//polymoriphism and overriding
+
+#include <iostream>
+
+class Base{
+ 
+public:
+    virtual void b(){
+    // ^ "virtual" enables overriding of this function 
+    // in classes inheriting from Base
+    // (nothing else is altered in this class)
+ 
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b (in Base): " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+
+class Derived : public Base {
+ 
+public: 
+ 
+    void b(){
+        b_pro = 3;
+        std::cout << "b (in Derived): " << b_pro << std::endl;
+    }
+ 
+    void d(){
+        b_pro = 3;
+        std::cout << "d: " << b_pro << std::endl;
+    }
+};
+ 
+void fcopy(Base inb){
+    inb.b();
+}
+ 
+void fref(Base& inb){
+    inb.b();
+}
+ 
+int main(){
+ 
+    Base ba;
+    Derived de;
+ 
+    fcopy(ba);
+ 
+    fcopy(de);
+ 
+    fref(ba);
+ 
+    fref(de);
+ 
+    Base* bp;
+ 
+    bp = &ba;
+    bp->b();
+ 
+    bp = &de;
+ 
+    bp->b();
+ 
+}
+//output:
+//b (in Base): 1 2
+//b (in Base): 1 2
+//b (in Base): 1 2
+//b (in Derived): 3
+//b (in Base): 1 2
+//b (in Derived): 3
+
+//Explanation:
+//With virtual function, we can override the function using class 
+//type of subclass. This will execute the function in the subclass.
+
+//Official Explanation: 
+//This is because member function b() is virtual in class Base and 
+//then class Derived, which inherits the function from class Base, 
+//overrides it.
+//Therefore the version of member function b() in Derived 
+//is now executed if the reference or pointer to Base actually 
+//references or points to an object of type Derived. 
+//This feature is called polymorphism.
+
+
+
+//virtual destructor
+#include <iostream>
+ 
+class Base{
+ 
+public:
+    virtual void b(){  
+        b_pro = 1;
+        b_pri = 2;
+        std::cout << "b (in Base): " << b_pro << " " << b_pri << std::endl;
+    }
+ 
+    // destructor (marked as virtual and with no instructions)
+    virtual ~Base(){ }
+ 
+protected:
+    int b_pro;
+ 
+private:
+    int b_pri;
+};
+ 
+class Derived : public Base {
+ 
+public: 
+ 
+    void b(){
+        b_pro = 3;
+        std::cout << "b (in Derived): " << b_pro << std::endl;
+    }
+ 
+    void d(){
+        b_pro = 3;
+        std::cout << "d: " << b_pro << std::endl;
+    }
+};
+ 
+int main(){
+    Base* bp;
+    bp = new Derived;
+ 
+    bp->b();
+ 
+    delete bp;
+    // this deallocation works properly only if there is a virtual destructor in Base
+}
+
+
+
+//Abstract class
+#include <iostream>
+ 
+class BaseAbstract{
+ 
+public:
+    virtual void b() const = 0; 
+    // = 0 is the syntax to indicate that the member function is pure virtual
+    // (note that there is no implementation and not even { })
+    // the function may or may not be const, in this case it is going to be
+ 
+    virtual ~BaseAbstract(){ }
+};
+ 
+class DerivedFromAbstract : public BaseAbstract {
+ 
+public: 
+ 
+    void b() const {
+        std::cout << "b in DFA" << std::endl;  
+    }
+ 
+};
+ 
+void fref(const BaseAbstract& ba){// ok: we can have a reference to BaseAbstract
+ 
+    ba.b();
+}
+ 
+int main(){
+    //BaseAbstract ba; 
+    // won't work: can't instantiate an object of type BaseAbstract
+ 
+    DerivedFromAbstract dfa;
+    dfa.b();
+ 
+    fref(dfa);
+ 
+    BaseAbstract* bp;
+    // ok: we can declare a pointer to BaseAbstract
+    bp = new DerivedFromAbstract;
+ 
+    bp->b();
+ 
+    delete bp;
+}
+
+
+
+//Polymorphism exercise: impedance devices
+#include <iostream>
+#include <vector>
+#include <complex>
+ 
+class ImpedanceDevice{
+public:
+ 
+    virtual std::complex<double> get_impedance(double omega) const = 0;
+ 
+    // there is no formula for a "generic impedance" as it depends on the device
+    // so this is a pure virtual member function
+ 
+    // classes inheriting from ImpedanceDevice will override this function
+ 
+    // the function will compute and return 
+    // a complex number representing the impedance
+    // depending on the formula for the specific device
+    // and the value of omega in input
+ 
+    // to represent a complex number for the impedance
+    // we use std::complex from the standard library
+    // with the real and imaginary part of type double
+ 
+    virtual ~ImpedanceDevice() { }
+};
+ 
+class Resistor : public ImpedanceDevice{
+public:
+ 
+    Resistor(double r) : resistance(r) { }
+ 
+    // the impedance of a resistor is equal to the resistance
+    // and this doesn't depend on the frequency, however we 
+    // still need to keep the omega parameter in order 
+    // to override the function from the base class ImpedanceDevice
+ 
+    std::complex<double> get_impedance(double omega) const {
+ 
+        std::complex<double> impedance(resistance);
+ 
+        // constructor for std::double with only one parameter
+        // setting the real part of impedance 
+        // to the value of resistance
+        // and its imaginary part to 0
+ 
+        return impedance;
+    }
+ 
+private:
+    double resistance ;
+};
+ 
+ 
+class Capacitor : public ImpedanceDevice{
+public:
+    Capacitor(double c) : capacitance(c) { }
+ 
+    std::complex<double>get_impedance(double omega) const {
+ 
+        std::complex<double> impedance(0, - 1/(omega * capacitance));
+ 
+        // we pass in input to the constructor for std::complex 
+        // the values from the formula for the impedance of a capacitor
+        // real part: 0 (passed to the first parameter of the constructor)
+        // imaginary part: - 1/(omega * capacitance) (passed to the second parameter of the constructor)
+ 
+        return impedance;
+    }
+ 
+private :
+ 
+    double capacitance;
+ 
+};
+
+class Inductor: public ImpedanceDevice{
+public:
+    Inductor(double in): inductance(in){}
+    std::complex<double>get_impedance(double omega) const {
+        std::complex<double> impedance(0, (omega * inductance));
+        return impedance;
+    }
+private:
+    double inductance;
+};
+ 
+ 
+int main(){
+    std::vector<ImpedanceDevice*> devices;
+ 
+    ImpedanceDevice* tmp_id;
+    std::string dev_choice;
+    double dev_feature;
+    int n_devices;
+ 
+    std::cout << "please enter number of devices:" << std::endl;
+    std::cin >> n_devices ;
+ 
+    for(int i=0; i<n_devices ; i++){
+ 
+        std::cout << "please enter device choice (r/c/i):" << std::endl;
+        std::cin >> dev_choice;
+ 
+        if(dev_choice=="c"){
+            std::cout << "please enter capacitance (F):" << std::endl;
+            std::cin >> dev_feature;
+            tmp_id = new Capacitor(dev_feature);
+        }
+        else if (dev_choice=="r"){
+            std::cout << "please enter resistance (Ohm):" << std::endl;
+            std::cin >> dev_feature;
+            tmp_id = new Resistor(dev_feature);
+        }
+        else{
+            std::cout << "please enter inductance (H):" << std::endl;
+            std::cin >> dev_feature;
+            tmp_id = new Inductor(dev_feature);
+        }
+ 
+        devices.push_back(tmp_id);
+ 
+    }
+ 
+    double f, omega;
+    std::cout << "please enter frequency (Hz):" << std::endl;
+    std::cin >> f;
+    omega = 2 * 3.14 * f; 
+    // 3.14 sufficient precision for now 
+    // (the M_PI constant often found in the cmath header 
+    // is not standard so it doesn't always work)
+ 
+    for(int i=0; i < devices.size(); i++){
+        std::cout << "impedance of device " << i + 1 << ": " << std::endl;
+ 
+        std::cout << devices[i]->get_impedance(omega) << " Ohms" << std::endl;
+ 
+    }
+ 
+    for(int i = 0; i < devices.size(); i++) {
+        delete devices[i];
+    }
+}
