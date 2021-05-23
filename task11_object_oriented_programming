@@ -1420,10 +1420,10 @@ int main(){
  
 }
 
-//Firstly, fcopy(ba) prints b (in Derived): 1 2
-//Secondly, fcopy(de) prints b (in Derived): 1 2 as Derived is under Base,
+//Firstly, fcopy(ba) prints b (in base): 1 2
+//Secondly, fcopy(de) prints b (in base): 1 2 as Derived is under Base,
 // so it is legal which is a subtype
-//Thirdly, fref(ba) and fref(de) both print b (in Derived): 1 2 for 
+//Thirdly, fref(ba) and fref(de) both print b (in base): 1 2 for 
 //the same reason
 // For bp-> b() it is pointing to a function inside class base
 // for bp->b() it is pointing to a function inside class base even
