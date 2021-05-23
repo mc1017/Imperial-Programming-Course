@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct BNode{
+  std::string val;
+  BNode* left;  
+  BNode* right; 
+};
+
+
+
+BNode* cons_tree(int layer_depth, int layer_count){
+  BNode* tree;
+  tree = new BNode;
+  if(layer_count == layer_depth){
+    tree-> left = NULL;
+    tree-> right = NULL;
+    tree->val = "0";
+    return tree; 
+  }
+  else{
+    tree-> val = "x" + std::to_string(layer_count+1);
+    tree-> left = cons_tree(layer_depth,layer_count+1);
+    tree-> right =cons_tree(layer_depth,layer_count+1);
+    return tree;
+  }
+}
+
+
+BNode* cons_value(BNode* tree, std::string input, int layer_depth, int layer_count){
+
+  if (layer_count == layer_depth){
+    tree->val = "1";
+    return tree;
+  }
+  else if (input[layer_count] =='0'){
+    return cons_value(tree->left,  input, layer_depth, layer_count+1); 
+  }
+  else{
+    return cons_value(tree-> right, input, layer_depth, layer_count+1); 
+  }
+}
+
+
+BNode* build_bt(const std::vector<std::string>& fvalues){
+  BNode* tree;
+  int layer_count=0;
+  int layer_depth = fvalues[0].length();
+  //construct entire tree first
+  tree = cons_tree(layer_depth,layer_count);
+  for (int i=0; i<fvalues.size(); i++){
+    //change the value of required nodes from 0 to 1
+    cons_value(tree, fvalues[i],layer_depth,layer_count);
+  }
+  return tree;
+}
+
+//search for the lowest node's value using recursion
+std::string search_val(BNode* tree, std::string input, int layer_depth, int layer_count){
+	/// this tree traversal is the same as cons_value so you could have combined them
+  if (layer_count == layer_depth){
+    if (tree->val =="0"){
+      return "0";
+    }
+    else if (tree->val =="1"){
+      return "1";
+    }
+    else{
+      return "invalid search input";
+    }
+  }
+  //character in input is evaluated
+  else if (input[layer_count] =='0'){
+    return search_val(tree->left, input, layer_depth, layer_count+1); 
+  }
+  else{
+    return search_val(tree->right, input, layer_depth, layer_count+1); 
+  }
+}
+
+
+std::string eval_bt(BNode* bt, const std::string& input){
+  int layer_count =0;
+  int layer_depth = input.length();
+  return search_val(bt, input, layer_depth,layer_count);
+  	/// eval_bt only calls search_val. This is bad function decomposition, could have done the search here without recursion.
+}
+
+int main(){
+    std::vector<std::string> fvalues;
+    std::string row;
+    row = "1101";
+    fvalues.push_back(row);
+    row = "1001";
+    fvalues.push_back(row);
+    BNode* bt = build_bt(fvalues);
+    std::cout << eval_bt(bt, "1001") << std::endl;
+    // should print "1"
+    std::cout << eval_bt(bt, "1101") << std::endl;
+    // should print "0"
+}
