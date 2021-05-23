@@ -108,7 +108,7 @@ BNode* build_bt(const std::vector<std::string>& fvalues){
     //change the value of required nodes from 0 to 1
     cons_value(tree, fvalues[i],layer_depth,layer_count);
   }
-  for (int i=0; i<fvalues[0].size()-1; i++){
+  for (int i=0; i<fvalues[0].size(); i++){
     tree=simplify_tree(tree);
   }
   return tree;
